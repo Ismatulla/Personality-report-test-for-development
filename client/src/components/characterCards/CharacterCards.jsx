@@ -1,4 +1,4 @@
-import SingleCharacterCard from "./singleCharacterCard";
+import SingleCharacterCard from "./SingleCharacterCard";
 import TeamRoles from "./TeamRoles";
 
 import { Grid } from "@mui/material";
