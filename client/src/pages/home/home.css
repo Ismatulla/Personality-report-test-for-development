@@ -1,0 +1,10 @@
+@media(min-width:355px){
+  .home_input{
+    font-size:14px
+  }
+}
+@media(min-width:720px){
+  .home_input{
+    font-size: 20px;
+  }
+}
