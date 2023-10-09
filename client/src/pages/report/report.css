@@ -8,7 +8,6 @@
 @media (max-width: 900px) {
   .reportContainer {
     gap: 0;
-    max-height: 900px;
   }
   .personalityReport {
     opacity: 1;

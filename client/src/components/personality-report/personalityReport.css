@@ -3,7 +3,6 @@
   background: #fff;
   padding: 0 !important;
   max-height: 840px;
-  overflow-y: scroll;
 }
 
 .personReportChild {
@@ -12,7 +11,7 @@
   margin-top: 80px !important;
   padding: 0 32px;
   align-items: flex-start;
-  margin-bottom: 9.2rem !important;
+  margin-bottom: 6rem !important;
 }
 
 @media (max-width: 900px) {

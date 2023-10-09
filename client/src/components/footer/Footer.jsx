@@ -44,7 +44,7 @@ const Footer = () => {
               marginBottom: "2rem",
             }}
             className="fontRoboto font_size_16">
-            temma.student@gmail.com
+           info@benco.me
           </Typography>
           <Typography
             variant="h6"
@@ -53,20 +53,7 @@ const Footer = () => {
               marginBottom: "6.2rem",
             }}
             className="fontRoboto font_size_16">
-            +31 6 1111 1111
-          </Typography>
-        </Typography>
-        <Typography variant="div">
-          {" "}
-          <Typography
-            variant="h6"
-            className="fontRoboto font_size_16"
-            sx={{
-              fontWeight: 500,
-              marginBottom: "4rem",
-              marginRight: {md: "90px", lg: "155px"},
-            }}>
-            ABOUT US
+           +31 6 177 46 103
           </Typography>
         </Typography>
         <Typography variant="div">

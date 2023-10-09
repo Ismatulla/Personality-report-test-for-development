@@ -39,7 +39,7 @@ const Settings = () => {
       sx={{
         maxWidth: "1280 !important",
         maxHeight: "595px",
-        padding: "0 !important",
+        padding: { md: "0 !important" },
         marginTop: "8rem",
       }}>
       <Paper
@@ -103,7 +103,7 @@ const Settings = () => {
                   cursor: "pointer",
                 }}></Grid>
               <Grid item>
-                <Link to="/">
+                <Link to="/" style={{ textDecoration: "none" }}>
                   <Button
                     type="submit"
                     variant="contained"

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
+import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
 import "./navbar.css";
 // MUI components
@@ -15,6 +16,7 @@ import {
   MenuItem,
   Tooltip,
   Avatar,
+  Button,
 } from "@mui/material";
 
 const settings = ["Reports", "Settings", "Logout"];
@@ -22,7 +24,7 @@ const profiles = ["English (en)", "Dutch (nl)"];
 
 function Navbar() {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
 
@@ -58,7 +60,9 @@ function Navbar() {
   return (
     <AppBar
       position="sticky"
-      sx={{ boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.05)" }}
+      sx={{
+        boxShadow: { xs: "none", md: "0px 4px 10px 0px rgba(0, 0, 0, 0.05)" },
+      }}
       className="white_background">
       <Container
         className="navbar_container"
@@ -73,11 +77,11 @@ function Navbar() {
             padding: { xs: "32px", md: "0" },
           }}>
           <Link to="/">
-            <Typography sx={{ mr: 1 }}>
+            <Typography sx={{ mr: 1, display: { xs: "none", md: "block" } }}>
               <img src={navbarLogo} alt="" />
             </Typography>
           </Link>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
             <Tooltip>
               <IconButton
                 onClick={handleOpenProfile}
@@ -118,19 +122,21 @@ function Navbar() {
                 </MenuItem>
               ))}
             </Menu>
-
-            <Tooltip>
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{
-                  p: 0,
-                  width: "48px",
-                  height: "48px",
-                  backgroundColor: "#f2f2f2",
-                }}>
-                <Avatar alt="your profile" src={navbarLogo} />
-              </IconButton>
-            </Tooltip>
+            {location.pathname !== "/" &&
+              location.pathname !== "/signup" &&
+              location.pathname !== "/password-reset" &&
+              location.pathname !== "/password-update" && (
+                <Button
+                  sx={{ padding: "0 !important" }}
+                  onClick={handleOpenUserMenu}>
+                  <img
+                    src={profilePic}
+                    alt="profilePic"
+                    width="48px"
+                    height="48px"
+                  />
+                </Button>
+              )}
 
             <Menu
               sx={{ mt: "45px" }}

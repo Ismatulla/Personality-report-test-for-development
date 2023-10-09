@@ -41,6 +41,7 @@ const PersonalityReport = () => {
           maxWidth: { xs: "100%", lg: "996px" },
         },
         marginTop: { md: "4rem" },
+        overflowY: { md: "scroll" },
       }}>
       {/* profile */}
       <Box

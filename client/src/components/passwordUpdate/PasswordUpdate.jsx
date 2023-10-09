@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import navLogo from "../../assets/navbar-logo.svg";
 import "../login/login.css";
 
@@ -14,13 +14,13 @@ import {
 } from "@mui/material";
 
 // tostify
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PasswordUpdate = () => {
   const [password, setPassword] = useState("");
   const handlePassword = (e) => {
-    const {value} = e.target;
+    const { value } = e.target;
     setPassword(value);
   };
   return (
@@ -33,8 +33,10 @@ const PasswordUpdate = () => {
       }}>
       <Paper
         sx={{
-          boxShadow: 1,
+          boxShadow: 0,
           padding: "3.2rem 3.2rem 0 3.2rem",
+          border: { sm: "none", md: "1px solid #e0e0e0" },
+          borderRadius: "7px",
         }}>
         <Box
           component="form"
@@ -49,7 +51,7 @@ const PasswordUpdate = () => {
             alt="not found"
             width="80px"
             height="80px"
-            style={{marginBottom: "4rem"}}
+            style={{ marginBottom: "4rem" }}
           />
           <Typography
             component="p"
@@ -57,7 +59,7 @@ const PasswordUpdate = () => {
             className="fontPrompt font_weight_400 font_size_20 ">
             Reset your password
           </Typography>
-          <Box sx={{width: "100%", marginTop: 2}}>
+          <Box sx={{ width: "100%", marginTop: 2 }}>
             <TextField
               required
               fullWidth
@@ -65,9 +67,9 @@ const PasswordUpdate = () => {
               type="password"
               value={password}
               onChange={handlePassword}
-              sx={{marginBottom: "2rem", color: "#a0a0a0"}}
-              InputLabelProps={{style: {fontSize: "1.6rem"}}}
-              InputProps={{style: {fontSize: "1.6rem"}}}
+              sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
+              InputLabelProps={{ style: { fontSize: "1.6rem" } }}
+              InputProps={{ style: { fontSize: "1.6rem" } }}
               className="fontRoboto font_size_16 font_weight_400"
             />
             <TextField
@@ -77,9 +79,9 @@ const PasswordUpdate = () => {
               type="password"
               value={password}
               onChange={handlePassword}
-              sx={{marginBottom: "2rem", color: "#a0a0a0"}}
-              InputLabelProps={{style: {fontSize: "1.6rem"}}}
-              InputProps={{style: {fontSize: "1.6rem"}}}
+              sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
+              InputLabelProps={{ style: { fontSize: "1.6rem" } }}
+              InputProps={{ style: { fontSize: "1.6rem" } }}
               className="fontRoboto font_size_16 font_weight_400"
             />
             <Grid container alignItems="center" justifyContent="space-between">

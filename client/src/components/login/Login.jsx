@@ -49,8 +49,10 @@ const Login = () => {
       }}>
       <Paper
         sx={{
-          boxShadow: 1,
+          boxShadow: 0,
+          border: { xs: "none", md: "1px solid #e0e0e0" },
           padding: "3.2rem 3.2rem 0 3.2rem",
+          borderRadius: "7px",
         }}>
         <Box
           component="form"
@@ -156,7 +158,11 @@ const Login = () => {
               InputProps={{ style: { fontSize: "1.6rem" } }}
               className="fontRoboto font_size_16 font_weight_400"
             />
-            <Grid container alignItems="center" justifyContent="space-between">
+            <Grid
+              container
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ borderBottom: "1px solid #e0e0e0 " }}>
               <Grid
                 item
                 sx={{
@@ -184,7 +190,7 @@ const Login = () => {
                 </label>
               </Grid>
               <Grid item>
-                <Link to="generate-report">
+                <Link to="generate-report" style={{ textDecoration: "none" }}>
                   <Button
                     type="submit"
                     variant="contained"
@@ -212,12 +218,16 @@ const Login = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "4rem",
+          alignItems: { xs: "flex-start", md: "center" },
+          flexDirection: { xs: "column", md: "row" },
+          padding: { xs: "3.2rem ", md: "3.2rem 0 3.2rem " },
         }}>
         <Typography
           variant="p"
-          sx={{ color: "#a0a0a0", textAlign: "center" }}
+          sx={{
+            color: "#a0a0a0",
+            textAlign: "center",
+          }}
           className="fontRoboto font_weight_400 font_size_16">
           Don't have an account with us?
           <Link
@@ -232,9 +242,9 @@ const Login = () => {
         </Typography>
         <Link to="/password-reset" style={{ textDecoration: "none" }}>
           <Typography
-            variant="p"
+            variant="h6"
             className="fontRoboto font_weight_400 font_size_16"
-            sx={{ color: "#ed1c24" }}>
+            sx={{ color: "#ed1c24", marginTop: { xs: "1rem", md: 0 } }}>
             {" "}
             Forgot Password ?
           </Typography>

@@ -11,7 +11,7 @@ const PersonalityTraits = () => {
           sx={{
             color: "#00ac4e",
             textAlign: "left",
-            marginBottom: { md: "4rem" },
+            marginBottom: "6rem",
           }}>
           Personality traits
         </Typography>
@@ -61,12 +61,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 28px 6px 28px",
+                    // padding: "6px 28px 6px 28px",
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    maxWidth: "56px !important",
+                    width: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -103,12 +106,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "0",
+                    // padding: "0",
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -145,12 +151,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 128.5px 6px 128.5px",
+                    // padding: "6px 128.5px 6px 128.5px",
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "157px !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -180,19 +189,22 @@ const PersonalityTraits = () => {
                 sx={{
                   borderTop: "1px solid #e0e0e0",
                   padding: "37px",
-                  maxWidth: "276px",
-                  width: "100%",
+                  maxWidth: "276px !important",
+                  width: "100% !important",
                   position: "absolute",
                   right: 0,
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -229,12 +241,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 76.5px 6px 76.5px",
+                    // padding: "6px 76.5px 6px 76.5px",
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "153px !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -271,12 +286,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -313,12 +331,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     backgroundColor: "#1a73e8",
                     borderRadius: "6px 0 0 6px",
                     position: "absolute",
                     right: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
             </Typography>
@@ -350,12 +371,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     backgroundColor: "#1a73e8",
                     borderRadius: "0 6px 6px 0",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
               <Typography
@@ -391,12 +415,15 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 17.5px 6px 17.5px",
+                    // padding: "6px 17.5px 6px 17.5px",
                     backgroundColor: "#1a73e8",
                     borderRadius: "0 6px 6px 0",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "35px !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
               <Typography
@@ -425,20 +452,22 @@ const PersonalityTraits = () => {
                 sx={{
                   borderTop: "1px solid #e0e0e0",
                   padding: "37px",
-                  maxWidth: "276px",
-                  width: "100%",
+                  maxWidth: "276px !important",
+                  width: "100% !important",
                   position: "absolute",
                   left: 0,
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     borderRadius: "0 6px 6px 0",
                     backgroundColor: "#1a73e8",
-
                     position: "absolute",
                     left: 0,
                     top: "-6px",
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                   }}></Typography>
               </Typography>
               <Typography
@@ -467,17 +496,19 @@ const PersonalityTraits = () => {
                 sx={{
                   borderTop: "1px solid #e0e0e0",
                   padding: "37px",
-                  maxWidth: "276px",
-                  width: "100%",
+                  maxWidth: "276px !important",
+                  width: "100% !important",
                   position: "absolute",
                   left: 0,
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 55.5px 6px 55.5px",
+                    // padding: "6px 55.5px 6px 55.5px",
                     borderRadius: "0 6px 6px 0",
                     backgroundColor: "#1a73e8",
-
+                    height: "12px",
+                    width: "111px !important",
+                    maxWidth: "100% !important",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
@@ -516,10 +547,12 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: 0,
+                    // padding: 0,
                     borderRadius: "0 6px 6px 0",
                     backgroundColor: "#1a73e8",
-
+                    height: "12px",
+                    width: "0 !important",
+                    maxWidth: "100% !important",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
@@ -558,10 +591,12 @@ const PersonalityTraits = () => {
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 47px 6px 47px",
+                    // padding: "6px 47px 6px 47px",
                     borderRadius: "0 6px 6px 0",
                     backgroundColor: "#1a73e8",
-
+                    height: "12px",
+                    width: "94px !important",
+                    maxWidth: "100% !important",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
@@ -593,17 +628,19 @@ const PersonalityTraits = () => {
                 sx={{
                   borderTop: "1px solid #e0e0e0",
                   padding: "37px",
-                  maxWidth: "276px",
-                  width: "100%",
+                  maxWidth: "276px !important",
+                  width: "100% !important",
                   position: "absolute",
                   left: 0,
                 }}>
                 <Typography
                   sx={{
-                    padding: "6px 92.5px 6px 92.5px",
+                    // padding: "6px 92.5px 6px 92.5px",
                     borderRadius: "0 6px 6px 0",
                     backgroundColor: "#1a73e8",
-
+                    height: "12px",
+                    width: "185px !important",
+                    maxWidth: "100% !important",
                     position: "absolute",
                     left: 0,
                     top: "-6px",
@@ -631,8 +668,8 @@ const PersonalityTraits = () => {
           padding: "2rem 0",
           borderBottom: "1px solid #e0e0e0",
           maxWidth: "970px",
-          margin: "0 auto",
-          width: "100%",
+          margin: { xs: "0 auto", md: "0 auto 4rem auto" },
+          width: "100% ",
         }}></Typography>
 
       {/* CARDS !!!!! */}

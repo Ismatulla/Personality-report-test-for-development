@@ -57,15 +57,17 @@ const SignUp = () => {
   return (
     <Container
       sx={{
-        margin: "4rem auto",
+        margin: { xs: "0 auto", md: "8rem auto" },
         maxWidth: "448px !important",
         maxHeight: "832px !important",
         padding: "0 !important",
       }}>
       <Paper
         sx={{
-          boxShadow: 1,
+          boxShadow: 0,
+          border: { xs: "none", md: "1px solid #e0e0e0" },
           padding: "3.2rem 3.2rem 0 3.2rem",
+          borderRadius: "7px",
         }}>
         <Box
           component="form"
@@ -229,23 +231,22 @@ const SignUp = () => {
               <Grid
                 item
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  cursor: "pointer",
-                }}></Grid>
-              <Grid item>
+                  width: "100%",
+                  borderBottom: { xs: "1px solid #e0e0e0", md: "none" },
+                }}>
                 <Button
                   type="submit"
                   variant="contained"
                   sx={{
                     textTransform: "none",
-                    margin: "4rem 0",
-                    padding: "1.2rem 2.4rem 1.2rem 2.4rem ",
+                    margin: "4rem 0 4rem auto",
+                    padding: "1rem 2rem 1rem 2rem ",
                     fontSize: "1.5rem",
                     borderRadius: "4px",
                     backgroundColor: "#1a73e8",
                     lineHeight: "1.2 !important",
+                    maxWidth: "169px",
+                    display: "flex",
                   }}
                   fullWidth
                   className="fontPrompt font_weight_400 font_size_16">
@@ -260,12 +261,12 @@ const SignUp = () => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           alignItems: "center",
-          margin: "4rem 0",
+          margin: { xs: "4rem 0 0 3rem ", md: "4rem 0 0 0" },
         }}>
         <Typography
-          variant="p"
+          variant="h6"
           sx={{ color: "#a0a0a0", textAlign: "center" }}
           className="fontRoboto font_weight_400 font_size_16">
           Already have an account with us?
