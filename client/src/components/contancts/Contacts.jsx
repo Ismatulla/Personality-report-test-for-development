@@ -62,7 +62,7 @@ const Contacts = () => {
           width: { sm: "100%", md: "284px" },
           marginTop: { md: "4rem" },
           maxHeight: { xs: "614px", md: "840px" },
-          overflowY: "scroll",
+          overflowY: { md: "scroll" },
         }}>
         <Box
           sx={{
