@@ -1,0 +1,77 @@
+.blue_background {
+    background-color: rgba(14, 112, 236, 1) !important;
+  }
+  .text_blue {
+    color: rgba(14, 112, 236, 1) !important;
+  }
+  .grey_text_900 {
+    color: rgba(0, 0, 0, 1) !important;
+  }
+  .grey_background_900 {
+    background-color: rgba(0, 0, 0, 1) !important;
+  }
+  
+  .grey_text_400 {
+    color: rgba(130, 130, 130, 1);
+  }
+  
+  .gey_bg_100 {
+    background: rgba(238, 238, 238, 1);
+  }
+  .grey_text_100 {
+    color: #eeeeee;
+  }
+  .white_text {
+    color: #ffffff !important;
+  }
+  .white_background {
+    background-color: #ffffff !important;
+  }
+  .white_opacity {
+    color: #ffffff;
+    opacity: 0.2;
+  }
+  .opacity_text {
+    opacity: 0.2;
+  }
+  .green_gradient {
+    color: #00ac4e;
+  }
+  .red_text {
+    color: #ed3f3f !important;
+  }
+  .red_background {
+    background-color: #ed3f3f;
+  }
+  
+  .green_text {
+    color: rgba(0, 172, 78, 1);
+  }
+  .green_background {
+    background: #21c1a7;
+  }
+  .light_green_text {
+    color: #21c1a7;
+  }
+  .blue_color {
+    color: #0e70ec;
+  }
+  
+  /* disc colors */
+  
+  .disc_driver {
+    color: rgba(235, 87, 87, 1);
+    background: rgba(252, 229, 229, 1);
+  }
+  .disc_questioner {
+    color: rgba(140, 67, 148, 1);
+    background: rgba(247, 224, 250, 1);
+  }
+  .disc_motivator {
+    color: rgba(209, 192, 38, 1);
+    background: rgba(255, 246, 164, 1);
+  }
+  .yellow_background {
+    background-color: #ffd656;
+  }
+  

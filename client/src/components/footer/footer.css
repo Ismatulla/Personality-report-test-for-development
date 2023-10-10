@@ -1,0 +1,15 @@
+.footer_logo{
+
+}
+
+@media(min-width:540px){
+  .footer_logo{
+    width:40px
+  }
+}
+
+@media(min-width:900px){
+  .footer_logo{
+    width:64px
+  }
+}

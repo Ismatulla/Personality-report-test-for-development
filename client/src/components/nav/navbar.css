@@ -1,0 +1,13 @@
+.css-1pqm26d-MuiAvatar-img {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.navbar_container {
+  padding: 0 !important;
+}
+@media (min-width: 900px) and (max-width: 1280px) {
+  .navbar_container {
+    padding: 0 40px !important;
+  }
+}

@@ -1,0 +1,29 @@
+.reportContainer {
+  max-width: 1280px !important;
+  padding: 0 !important;
+  margin: 0 auto 12rem auto;
+  display: flex !important;
+  gap: 12px;
+}
+@media (max-width: 900px) {
+  .reportContainer {
+    gap: 0;
+  }
+  .personalityReport {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    max-width: 100%;
+  }
+
+  .contacts {
+    width: 85%;
+    margin: 0 auto;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+  .not-active {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+  }
+}

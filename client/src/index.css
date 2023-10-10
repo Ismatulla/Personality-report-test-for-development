@@ -1,0 +1,44 @@
+:root {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* browser scrollbar styling */
+/* For Webkit Browsers (Chrome, Safari, etc.) */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: green;
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: darkgreen;
+}
+
+/* For Microsoft Edge */
+body::-ms-scrollbar {
+  width: 12px;
+}
+
+body::-ms-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body::-ms-scrollbar-thumb {
+  background: blue;
+  border-radius: 6px;
+}
+
+body::-ms-scrollbar-thumb:hover {
+  background: darkblue;
+}
+/* end of browser scrollbar styling */

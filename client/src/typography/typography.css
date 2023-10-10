@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&700&family=Prompt&family=Roboto&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+p {
+  width: unset !important;
+}
+html {
+  font-size: 10px;
+}
+.fontPrompt {
+  font-family: "Prompt", sans-serif !important;
+}
+.fontRoboto {
+  font-family: "Roboto", sans-serif;
+}
+.font_weight_400 {
+  font-weight: 400 !important;
+}
+.font_weight_600 {
+  font-weight: 600 !important;
+}
+.font_weight_700 {
+  font-weight: 700 !important;
+}
+.font_size_12 {
+  font-size: 1.2rem !important;
+}
+.font_size_14 {
+  font-size: 1.4rem !important;
+}
+.font_size_16 {
+  font-size: 1.6rem !important;
+}
+.font_size_20 {
+  font-size: 2rem !important;
+}
+.font_size_24 {
+  font-size: 2.4rem !important;
+}
+.font_size_32 {
+  font-size: 3.2rem !important;
+}
+.font_size_48 {
+  font-size: 4.8rem !important;
+}
+.font_size_64 {
+  font-size: 6.4rem !important;
+}
+.font_size_120 {
+  font-size: 12rem !important;
+}
