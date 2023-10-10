@@ -1,4 +1,6 @@
 import { useState } from "react";
+import instance from "../../utils/api";
+import { setRefreshToken } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
@@ -14,9 +16,6 @@ import {
   Typography,
   Paper,
   Grid,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
 } from "@mui/material";
 
 // tostify
@@ -24,21 +23,25 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
 
   const navigate = useNavigate();
 
-  const handlePassword = (e) => {
-    const { value } = e.target;
-    setPassword(value);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleUsername = (e) => {
-    const { value } = e.target;
-    setUsername(value);
+  const handleLogin = async () => {
+    try {
+      const response = await instance.post("/login", loginData);
+      setRefreshToken(response.data.refreshToken);
+      console.log("Login successful:", response.data);
+      navigate("/generate-report");
+    } catch (error) {
+      console.error("Login Error:", error.response.data);
+    }
   };
-
   return (
     <Container
       sx={{
@@ -138,8 +141,9 @@ const Login = () => {
               required
               fullWidth
               label="Username"
-              value={username}
-              onChange={handleUsername}
+              name="username"
+              value={loginData.username}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -151,8 +155,9 @@ const Login = () => {
               fullWidth
               label="Password"
               type="password"
-              value={password}
-              onChange={handlePassword}
+              name="password"
+              value={loginData.password}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -190,24 +195,23 @@ const Login = () => {
                 </label>
               </Grid>
               <Grid item>
-                <Link to="generate-report" style={{ textDecoration: "none" }}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      textTransform: "none",
-                      margin: "3rem 0",
-                      padding: "1.2rem 2.4rem 1.2rem 2.4rem ",
-                      fontSize: "1.5rem",
-                      borderRadius: "4px",
-                      backgroundColor: "#1a73e8",
-                      lineHeight: "1.2 !important",
-                    }}
-                    fullWidth
-                    className="fontPrompt font_weight_400 font_size_16">
-                    Login
-                  </Button>
-                </Link>
+                <Button
+                  onClick={handleLogin}
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    margin: "3rem 0",
+                    padding: "1.2rem 2.4rem 1.2rem 2.4rem ",
+                    fontSize: "1.5rem",
+                    borderRadius: "4px",
+                    backgroundColor: "#1a73e8",
+                    lineHeight: "1.2 !important",
+                  }}
+                  fullWidth
+                  className="fontPrompt font_weight_400 font_size_16">
+                  Login
+                </Button>
               </Grid>
             </Grid>
             <ToastContainer />

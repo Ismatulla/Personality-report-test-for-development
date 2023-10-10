@@ -4,6 +4,8 @@ import navLogo from "../../assets/navbar-logo.svg";
 import "../login/login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
+import instance from "../../utils/api";
+import { setRefreshToken } from "../../utils/localStorage";
 
 // MUI components
 import {
@@ -25,35 +27,34 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [reEnterPassword, setReEnterPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [genderSelection, setGenderSelection] = useState("");
+  const navigate = useNavigate();
 
-  const handleGenderSelection = (e) => {
-    const { value } = e.target;
-    setGenderSelection(value);
+  const [userData, setuserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    reEnterPassword: "",
+    gender: "",
+  });
+  console.log(userData.gender);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setuserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSignUp = async () => {
+    try {
+      const response = await instance.post("/signup", userData);
+      console.log("successful signup:", response.data);
+      setRefreshToken(response.data.refreshToken);
+      navigate("/generate-report");
+    } catch (error) {
+      console.log("Signup Error:", error.response.data);
+    }
   };
 
-  const handlePassword = (e) => {
-    const { value } = e.target;
-    setPassword(value);
-  };
-
-  const handleUsername = (e) => {
-    const { value } = e.target;
-    setUsername(value);
-  };
-  const handleEmail = (e) => {
-    const { value } = e.target;
-    setEmail(value);
-  };
-
-  const handleReEnterPassword = (e) => {
-    const { value } = e.target;
-    setReEnterPassword(value);
-  };
   return (
     <Container
       sx={{
@@ -153,8 +154,9 @@ const SignUp = () => {
               required
               fullWidth
               label="Username"
-              value={username}
-              onChange={handleUsername}
+              name="username"
+              value={userData.username}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -164,8 +166,9 @@ const SignUp = () => {
               required
               fullWidth
               label="Email"
-              value={email}
-              onChange={handleEmail}
+              name="email"
+              value={userData.email}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -176,8 +179,9 @@ const SignUp = () => {
               fullWidth
               label="Password"
               type="password"
-              value={password}
-              onChange={handlePassword}
+              name="password"
+              value={userData.password}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -186,10 +190,11 @@ const SignUp = () => {
             <TextField
               required
               fullWidth
+              name="reEnterPassword"
               label="Re-enter Password"
               type="password"
-              value={reEnterPassword}
-              onChange={handleReEnterPassword}
+              value={userData.reEnterPassword}
+              onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
               InputProps={{ style: { fontSize: "1.6rem" } }}
@@ -205,22 +210,23 @@ const SignUp = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={genderSelection}
+                value={userData.gender}
                 label="Gender"
-                onChange={handleGenderSelection}
+                name="gender"
+                onChange={handleInputChange}
                 className="fontRoboto font_weight_400 font_size_16">
                 <MenuItem
-                  value={10}
+                  value="Male"
                   className="fontRoboto font_weight_400 font_size_16">
                   Male
                 </MenuItem>
                 <MenuItem
-                  value={20}
+                  value="Female"
                   className="fontRoboto font_weight_400 font_size_16">
                   Female
                 </MenuItem>
                 <MenuItem
-                  value={30}
+                  value="Others"
                   className="fontRoboto font_weight_400 font_size_16">
                   Others
                 </MenuItem>
@@ -235,6 +241,7 @@ const SignUp = () => {
                   borderBottom: { xs: "1px solid #e0e0e0", md: "none" },
                 }}>
                 <Button
+                  onClick={handleSignUp}
                   type="submit"
                   variant="contained"
                   sx={{

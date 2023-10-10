@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
+import { clearRefreshToken } from "../../utils/localStorage";
 import "./navbar.css";
 // MUI components
 import {
@@ -31,13 +32,13 @@ function Navbar() {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  console.log(userProfile);
   const handleOpenProfile = (event) => {
     setUserProfile(event.currentTarget);
   };
   const handleCloseUserMenu = (settings) => {
     if (settings) {
       if (settings === "Logout") {
+        clearRefreshToken();
         navigate("/");
       }
       if (settings === "Reports") {
