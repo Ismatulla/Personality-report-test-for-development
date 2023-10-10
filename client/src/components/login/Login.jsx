@@ -1,6 +1,6 @@
 import { useState } from "react";
 import instance from "../../utils/api";
-import { setRefreshToken } from "../../utils/localStorage";
+import { setRefreshToken, setAccessToken } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
@@ -28,15 +28,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleLogin = async () => {
     try {
-      const response = await instance.post("/login", loginData);
-      setRefreshToken(response.data.refreshToken);
-      console.log("Login successful:", response.data);
+      const response = await instance.post("api/token/", loginData);
+      setRefreshToken(response.data.refresh);
+      setAccessToken(response.data.access);
+      console.log(response.data);
       navigate("/generate-report");
     } catch (error) {
       console.error("Login Error:", error.response.data);
@@ -58,7 +60,6 @@ const Login = () => {
           borderRadius: "7px",
         }}>
         <Box
-          component="form"
           sx={{
             marginTop: 0,
             display: "flex",

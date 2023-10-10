@@ -5,7 +5,6 @@ import "../login/login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
 import instance from "../../utils/api";
-import { setRefreshToken } from "../../utils/localStorage";
 
 // MUI components
 import {
@@ -30,14 +29,12 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [userData, setuserData] = useState({
-    username: "",
     email: "",
+    username: "",
     password: "",
-    reEnterPassword: "",
-    gender: "",
   });
-  console.log(userData.gender);
   const handleInputChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setuserData((prevData) => ({
       ...prevData,
@@ -46,10 +43,11 @@ const SignUp = () => {
   };
   const handleSignUp = async () => {
     try {
-      const response = await instance.post("/signup", userData);
-      console.log("successful signup:", response.data);
-      setRefreshToken(response.data.refreshToken);
-      navigate("/generate-report");
+      const response = await instance.post("signup", userData);
+      console.log(response);
+      if (response.status === 201) {
+        navigate("/");
+      }
     } catch (error) {
       console.log("Signup Error:", error.response.data);
     }
@@ -71,7 +69,6 @@ const SignUp = () => {
           borderRadius: "7px",
         }}>
         <Box
-          component="form"
           sx={{
             marginTop: 0,
             display: "flex",
@@ -193,7 +190,6 @@ const SignUp = () => {
               name="reEnterPassword"
               label="Re-enter Password"
               type="password"
-              value={userData.reEnterPassword}
               onChange={handleInputChange}
               sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
               InputLabelProps={{ style: { fontSize: "1.6rem" } }}
@@ -210,7 +206,6 @@ const SignUp = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={userData.gender}
                 label="Gender"
                 name="gender"
                 onChange={handleInputChange}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import pasteBtn from "../../assets/paste-btn.svg";
 import arrow from "../../assets/arrow-1.svg";
-import { Link } from "react-router-dom";
+import instance from "../../utils/api";
 import "./home.css";
 
 const Home = () => {
@@ -12,7 +12,14 @@ const Home = () => {
     const { value } = e.target;
     setUrl(value);
   };
-
+  const handleLinkedInUrl = async () => {
+    try {
+      const response = await instance.post("linkedin-url", { url });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Box
       sx={{
@@ -64,36 +71,35 @@ const Home = () => {
           <img src={pasteBtn} alt="pasteBtn" />
         </Button>
       </Box>
-      <Link to="/reports" style={{ textDecoration: "none" }}>
-        <Button
-          variant="contained"
-          sx={{
-            textTransform: "none",
-            margin: "0 auto",
-            padding: "2.2rem 2.4rem ",
-            fontSize: "1.5rem",
-            borderRadius: "8px",
-            backgroundColor: "#1a73e8",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "0.55rem",
-            maxWidth: { xs: "100%", md: "319px" },
-            lineHeight: "2.4rem",
-          }}
-          fullWidth
-          className="fontPrompt font_weight_400 font_size_16">
-          <Typography
-            variant="p"
-            className="fontPrompt font_weight_700 font_size_16 white_text"
-            sx={{ display: "flex", gap: "1rem" }}>
-            Generate Personality Report
-            <span>
-              <img src={arrow} alt="arrow" width="100%" height="100%" />
-            </span>
-          </Typography>
-        </Button>
-      </Link>
+      <Button
+        variant="contained"
+        onClick={handleLinkedInUrl}
+        sx={{
+          textTransform: "none",
+          margin: "0 auto",
+          padding: "2.2rem 2.4rem ",
+          fontSize: "1.5rem",
+          borderRadius: "8px",
+          backgroundColor: "#1a73e8",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "0.55rem",
+          maxWidth: { xs: "100%", md: "319px" },
+          lineHeight: "2.4rem",
+        }}
+        fullWidth
+        className="fontPrompt font_weight_400 font_size_16">
+        <Typography
+          variant="p"
+          className="fontPrompt font_weight_700 font_size_16 white_text"
+          sx={{ display: "flex", gap: "1rem" }}>
+          Generate Personality Report
+          <span>
+            <img src={arrow} alt="arrow" width="100%" height="100%" />
+          </span>
+        </Typography>
+      </Button>
     </Box>
   );
 };
