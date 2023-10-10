@@ -49,12 +49,16 @@ INSTALLED_APPS = [
     'users',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        # Other authentication classes, if needed
-    ],
-}
+# REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES': (
+#        'rest_framework.authentication.TokenAuthentication',
+#    ),
+#    'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAdminUser'
+#    ),
+
+# }
+
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
 #     # or allow read-only access for unauthenticated users.
@@ -115,23 +119,23 @@ WSGI_APPLICATION = 'personality.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'NeNL4NNLfKerKFIiEN4G',
-        'HOST': 'containers-us-west-65.railway.app',
-        'PORT': '6274',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'NeNL4NNLfKerKFIiEN4G',
+#         'HOST': 'containers-us-west-65.railway.app',
+#         'PORT': '6274',
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

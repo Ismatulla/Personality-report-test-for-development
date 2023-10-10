@@ -116,12 +116,13 @@ class LinkedinUrl(views.APIView):
 
     tfidf_vectorizer = pickle.load(open("./chartype/vectorizer.pickle", 'rb'))
     model = joblib.load('./chartype/XGBoost_1st_attempt_60k.joblib')
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         serializer=LinkedinUrlSerializer(data=request.data)
         if serializer.is_valid():
             link = serializer.validated_data['link']
+            username=serializer.validated_data['username']
+            user=User.objects.filter(username=username).first()
             try:
                 user_input, first_name, last_name, prof_pic=model_link(link)
 
@@ -129,11 +130,11 @@ class LinkedinUrl(views.APIView):
                 user_input_tfidf = self.tfidf_vectorizer.transform(user_input['tokenized_text'])
                 predicted_character = self.model.predict(user_input_tfidf)
                 responses={"chartype":predictions_dict[predicted_character[0]],
-                           "first_name":first_name,
-                           "last_name":last_name, "prof_pic":prof_pic}
+                            "first_name":first_name,
+                            "last_name":last_name, "prof_pic":prof_pic}
                 
                 user_linkedin_data = {
-                                    'user': request.user,
+                                    'user': user,
                                     'linkedin_url': link,
                                     'first_name': first_name,
                                     'last_name': last_name,
@@ -143,7 +144,7 @@ class LinkedinUrl(views.APIView):
                 if serializer_linkedin.is_valid():
                     serializer_linkedin.save()
 
-                return response.Response(user_linkedin_data)
+                return response.Response(responses)
             except:
                 return response.Response(serializer.errors, status=400)
         return response.Response(serializer.errors, status=400)
