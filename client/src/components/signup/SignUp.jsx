@@ -22,12 +22,28 @@ import {
 } from "@mui/material";
 
 // tostify
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
-
+  const notifySuccess = () =>
+    toast.success(
+      "Your account has been created successfully. You can now login",
+      {
+        theme: "colored",
+        style: {
+          fontSize: "1.5rem",
+        },
+      }
+    );
+  const notifyError = () =>
+    toast.error("please fill all mandatory fields!", {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
   const [userData, setuserData] = useState({
     email: "",
     username: "",
@@ -44,11 +60,12 @@ const SignUp = () => {
   const handleSignUp = async () => {
     try {
       const response = await instance.post("signup", userData);
-      console.log(response);
+      notifySuccess();
       if (response.status === 201) {
         navigate("/");
       }
     } catch (error) {
+      notifyError();
       console.log("Signup Error:", error.response.data);
     }
   };
@@ -256,7 +273,7 @@ const SignUp = () => {
                 </Button>
               </Grid>
             </Grid>
-            <ToastContainer />
+            <ToastContainer position="top-right" />
           </Box>
         </Box>
       </Paper>

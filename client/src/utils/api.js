@@ -5,10 +5,8 @@ const instance = axios.create({ baseURL: 'https://thiernobalde95.pythonanywhere.
 
 instance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
-  console.log(accessToken)
   if (accessToken) {
     config.headers['Authorization'] = `Bearer ${accessToken}`
-    console.log(config.headers)
   }
   return config
 },

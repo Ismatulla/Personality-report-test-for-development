@@ -1,7 +1,7 @@
 import { Container, Typography, Box } from "@mui/material";
 import CharacterCards from "../characterCards/CharacterCards";
 
-const PersonalityTraits = () => {
+const PersonalityTraits = ({data}) => {
   return (
     <>
       <Container
@@ -674,7 +674,7 @@ const PersonalityTraits = () => {
 
       {/* CARDS !!!!! */}
       <Container sx={{ maxWidth: "893px", margin: "0 auto" }}>
-        <CharacterCards />
+        <CharacterCards data={data} />
       </Container>
       {/* END OF CARDS !!! */}
     </>

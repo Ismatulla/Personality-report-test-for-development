@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const SingleCharacterCard = ({ charTitle }) => {
+const SingleCharacterCard = ({ charTitle,description }) => {
   return (
     <Box sx={{ marginTop: { xs: "6rem", md: "8rem" } }}>
       <Typography

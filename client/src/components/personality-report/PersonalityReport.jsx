@@ -1,12 +1,12 @@
 import { Box, Typography, Container } from "@mui/material";
-import personProfile from "../../assets/person-profile.svg";
 import DiscCircle from "../discCircle/DiscCircle";
 import "./personalityReport.css";
 import arrowDown from "../../assets/arrow-down.svg";
 import PersonalityTraits from "../personality-traits/PersonalityTraits";
 import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 
-const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
+const PersonalityReport = ({ linkedinData }) => {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -75,7 +75,7 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
               variant="h2"
               sx={{ display: { md: "none" }, width: "60px", height: "60px" }}>
               <img
-                src={profpic}
+                src={linkedinData?.prof_pic}
                 alt="personprofile"
                 style={{ borderRadius: "8px" }}
                 width="100%"
@@ -95,7 +95,7 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
                 }}
                 variant="h2"
                 className="font_weight_400 fontPrompt">
-                {firstname} {lastname}
+                {linkedinData?.firstname} {linkedinData?.lastname}
               </Typography>
               <Typography
                 variant="h6"
@@ -111,7 +111,7 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
                   fontSize: { xs: "1.4rem", md: "1.6rem" },
                 }}
                 className="fontRoboto font_weight_700">
-                {chartype}
+                {linkedinData?.chartype}
               </Typography>
             </Box>
           </Box>
@@ -119,14 +119,13 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
             variant="h3"
             className="fontPrompt font_weight_400 font_size_20"
             sx={{ color: "#797979" }}>
-            He/she is likely to be more optimistic and casual in communication,
-            while making decisions quicker than most by relying on intuition.
+            {linkedinData?.data?.[0][1]}
           </Typography>
         </div>
         <div className="personalityReport_profile">
           <Box sx={{ width: "152px", height: "152px" }}>
             <img
-              src={profpic}
+              src={linkedinData?.prof_pic}
               alt="person profile"
               style={{
                 width: "100%",
@@ -147,13 +146,10 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
           <Box
             className="fontPrompt font_weight_400 font_size_48"
             sx={{ color: "black", marginBottom: "4rem" }}>
-            {chartype}
+            {linkedinData?.chartype}
           </Box>
           <Box className="fontRoboto font_weight_400 font_size_20">
-            Lorem ipsum dolor sit amet ac faucibus senectus platea fusce turpis
-            vitae sodales erat id. Ornare fringilla molestie dapibus facilisis
-            aenean eget mollis habitasse. Ornare porttitor et pharetra
-            suspendisse aenean velit etiam.
+            {linkedinData?.data?.[1][2]}
           </Box>
           <div
             style={{
@@ -216,7 +212,7 @@ const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
       {/* end of diagram and charts */}
 
       {/* start of personality traits */}
-      <PersonalityTraits />
+      <PersonalityTraits data={linkedinData?.data} />
       {/* end of personality traits */}
     </Container>
   );

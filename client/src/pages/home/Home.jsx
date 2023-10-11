@@ -9,41 +9,24 @@ import "./home.css";
 import CircularWithValueLabel from "../../components/circularProgress/CricularProgress";
 
 const Home = () => {
-  const data = useSelector((state) => state);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [url, setUrl] = useState("");
   const searchParams = new URLSearchParams(location.search);
   const [isLoading, setIsLoading] = useState(false);
   const verifyUrl = url.length !== 0 ? false : true;
-  const queryparams = searchParams.get("query");
-
+  const queryparams = searchParams.get("username");
+  console.log(queryparams);
   const handleUrl = (e) => {
     const { value } = e.target;
     setUrl(value);
   };
-  const handleLinkedInUrl = async () => {
-    try {
-      setIsLoading(true);
-      const response = await instance.post(
-        "linkedin-url",
-        {
-          link: url,
-          username: queryparams,
-        }
-      );
-      navigate(
-        `/reports?query=${response.data.chartype}&firstname=${response.data.first_name}&lastname=${response.data.last_name}&profpic=${response.data.prof_pic}&chartype=${response.data.chartype}`
-      );
-      setIsLoading(false);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+  const handleLinkedInUrl = () => {
+    if (url.length !== 0) {
+      navigate(`/reports?username=${queryparams}&url=${url}`);
     }
   };
-  useEffect(() => {}, []);
   return (
     <Box
       sx={{

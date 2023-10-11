@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import instance from "../../utils/api";
 import { setRefreshToken, setAccessToken } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,14 +19,27 @@ import {
 } from "@mui/material";
 
 // tostify
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
-
   const navigate = useNavigate();
+  const notifySuccess = () =>
+    toast.success("Seccessful login", {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
 
+  const notifyError = () =>
+    toast.error("Wrong credintials!", {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -36,11 +49,13 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await instance.post("api/token/", loginData);
+      notifySuccess();
       setRefreshToken(response.data.refresh);
       setAccessToken(response.data.access);
       console.log(response.data);
-      navigate(`/generate-report?query=${loginData.username}`);
+      navigate(`/generate-report?username=${loginData.username}`);
     } catch (error) {
+      notifyError();
       console.error("Login Error:", error.response.data);
     }
   };

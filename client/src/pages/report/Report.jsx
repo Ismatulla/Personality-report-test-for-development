@@ -3,25 +3,47 @@ import Contacts from "../../components/contancts/Contacts";
 import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import leftArrow from "../../assets/arrow-to-left.svg";
 import "./report.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import instance from "../../utils/api";
 
 const Report = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const firstname = searchParams.get("firstname");
-  const lastname = searchParams.get("lastname");
-  const chartype = searchParams.get("chartype");
-  const prof = location.search.lastIndexOf("profpic");
-  const char = location.search.lastIndexOf("chartype");
-  const profpic = location.search.slice(prof + 8, char);
-  console.log(location.search);
-  console.log(profpic);
+  const username = searchParams.get("username");
   const [toggleClass, setToggleClass] = useState(false);
+  const [data, setData] = useState([]);
+  const [linkedinData, setLinkedinData] = useState({});
   const handleClass = () => {
     setToggleClass(!toggleClass);
   };
+  const url = searchParams.get("url");
 
+  const handleLinkedInUrl = async () => {
+    try {
+      const response = await instance.get(`linkedin-url?username=${username}`);
+      setData(response.data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleLinkedInUrlPost = async () => {
+    try {
+      const response = await instance.post("linkedin-url", {
+        link: url,
+        username: username,
+      });
+      console.log(response.data);
+      setLinkedinData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    handleLinkedInUrl();
+    handleLinkedInUrlPost();
+  }, []);
   return (
     <>
       {/* mobile  */}
@@ -67,20 +89,10 @@ const Report = () => {
 
       <Container className="reportContainer ">
         <Box className={`contacts ${!toggleClass && "not-active"}`}>
-          <Contacts
-            firstname={firstname}
-            lastname={lastname}
-            profpic={profpic}
-            chartype={chartype}
-          />
+          <Contacts data={data} />
         </Box>
         <Box className={`personalityReport ${toggleClass && "not-active"}`}>
-          <PersonalityReport
-            firstname={firstname}
-            lastname={lastname}
-            profpic={profpic}
-            chartype={chartype}
-          />
+          <PersonalityReport linkedinData={linkedinData} />
         </Box>
       </Container>
     </>

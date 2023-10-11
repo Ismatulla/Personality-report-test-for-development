@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const TeamRoles = ({ charTitle, borderColor }) => {
+const TeamRoles = ({ charTitle, borderColor,description }) => {
   return (
     <Box sx={{ marginTop: { xs: "6rem", md: "8rem" } }}>
       <Typography

@@ -3,11 +3,12 @@ import { Box, Typography, Button, List, ListItem } from "@mui/material";
 import searchicon from "../../assets/search-icon.svg";
 import smallArrow from "../../assets/sm-arrow.svg";
 import "../../components/../pages/report/report.css";
-const Contacts = ({ firstname, lastname, profpic, chartype }) => {
+const Contacts = ({ data }) => {
   const [searchItem, setSearchItem] = useState("");
   return (
-    <>
+    <div>
       {/* for mobile device */}
+
       <Box
         sx={{
           padding: "2.4rem 0",
@@ -73,7 +74,10 @@ const Contacts = ({ firstname, lastname, profpic, chartype }) => {
           <Typography
             variant="h6"
             className="fontPrompt font_weight_700 font_size_16"
-            sx={{ color: "#1a73e8", marginBottom: { xs: 0, md: "2.4rem" } }}>
+            sx={{
+              color: "#1a73e8",
+              marginBottom: { xs: 0, md: "2.4rem" },
+            }}>
             Contacts
           </Typography>
           <Typography
@@ -108,55 +112,57 @@ const Contacts = ({ firstname, lastname, profpic, chartype }) => {
         </Box>
         <Box sx={{ padding: "0 !important" }}>
           {/* one profile  */}
-          <List
-            sx={{
-              padding: "13px 24px !important",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              borderBottom: "1px solid #e0e0e0",
-              cursor: "pointer",
-            }}>
-            <ListItem
+          {data.map((dts, id) => (
+            <List
+              key={id}
               sx={{
+                padding: "13px 24px !important",
                 display: "flex",
-                justifyContent: "sapace-between",
+                justifyContent: "space-between",
                 alignItems: "center",
-                padding: "0 !important",
                 width: "100%",
-                gap: "1.2rem",
-                flex: 2,
+                borderBottom: "1px solid #e0e0e0",
+                cursor: "pointer",
               }}>
-              <img
-                src={profpic}
-                alt="img"
-                width="32px"
-                height="32px"
-                style={{ objectFit: "cover", borderRadius: "50%" }}
-              />{" "}
-              <Typography
-                variant="p"
-                className="fontRoboto font_weight_400  font_size_16">
-                {firstname} {lastname}
-              </Typography>
-            </ListItem>
-            <ListItem
-              sx={{
-                padding: "0 !important",
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-                flex: 1,
-              }}>
-              {" "}
-              <img src={smallArrow} alt="arrow" />
-            </ListItem>
-          </List>
-          {/* end of one profile */}
+              <ListItem
+                sx={{
+                  display: "flex",
+                  justifyContent: "sapace-between",
+                  alignItems: "center",
+                  padding: "0 !important",
+                  width: "100%",
+                  gap: "1.2rem",
+                  flex: 2,
+                }}>
+                <img
+                  src={dts.prof_pic}
+                  alt="img"
+                  width="32px"
+                  height="32px"
+                  style={{ objectFit: "cover", borderRadius: "50%" }}
+                />{" "}
+                <Typography
+                  variant="p"
+                  className="fontRoboto font_weight_400  font_size_16">
+                  {dts.first_name} {dts.last_name}
+                </Typography>
+              </ListItem>
+              <ListItem
+                sx={{
+                  padding: "0 !important",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  flex: 1,
+                }}>
+                {" "}
+                <img src={smallArrow} alt="arrow" />
+              </ListItem>
+            </List>
+          ))}
         </Box>
       </Box>
-    </>
+    </div>
   );
 };
 

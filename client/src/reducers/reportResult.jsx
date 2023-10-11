@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  character: {},
+  data: {},
 };
 
 const sliceReportResult = createSlice({
@@ -9,7 +9,7 @@ const sliceReportResult = createSlice({
   initialState,
   reducers: {
     reports: (state, action) => {
-      state.character = action.payload;
+      state.data = action.payload;
     },
   },
 });
