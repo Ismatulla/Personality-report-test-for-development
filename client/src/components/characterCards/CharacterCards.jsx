@@ -94,7 +94,7 @@ const CharacterCards = ({ data }) => {
         {" "}
         <SingleCharacterCard
           charTitle="Quick meeting tips"
-          description={data?.[14]["Quick meeting tips"]}
+          description={data?.[14]["Quick Meeting Tips"]}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -111,9 +111,9 @@ const CharacterCards = ({ data }) => {
           borderColor="#00ac4e"
         />
       </Grid>
-      <Grid item xs={12} md={6}>
-        <TeamRoles charTitle="" borderColor="#ed1c24" />
-      </Grid>
+      {/* <Grid item xs={12} md={6}> */}
+      {/* <TeamRoles charTitle="" borderColor="#ed1c24" /> */}
+      {/* </Grid> */}
     </Grid>
   );
 };

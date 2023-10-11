@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const TeamRoles = ({ charTitle, borderColor,description }) => {
+const TeamRoles = ({ charTitle, borderColor, description }) => {
   return (
     <Box sx={{ marginTop: { xs: "6rem", md: "8rem" } }}>
       <Typography
@@ -30,38 +30,7 @@ const TeamRoles = ({ charTitle, borderColor,description }) => {
             padding: "2.9rem 2rem 2.9rem 2rem",
             borderBottom: "1px solid  #e0e0e0",
           }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
+          {description}
         </Typography>
       </Box>
     </Box>

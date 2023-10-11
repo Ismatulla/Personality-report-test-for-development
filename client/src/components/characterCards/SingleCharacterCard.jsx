@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const SingleCharacterCard = ({ charTitle,description }) => {
+const SingleCharacterCard = ({ charTitle, description }) => {
   return (
     <Box sx={{ marginTop: { xs: "6rem", md: "8rem" } }}>
       <Typography
@@ -14,46 +14,15 @@ const SingleCharacterCard = ({ charTitle,description }) => {
         sx={{
           border: "1px solid  #e0e0e0",
           borderRadius: "8px",
-          minHeight: "100%",
+          minHeight: "300px",
         }}>
         <Typography
           className="fontRoboto font_weight_400 font_size_20"
           sx={{
             padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
+          
           }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
-        </Typography>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-          }}>
-          Lorem ipsum dolor sit amet neque praesent sapien vestibulum.
+          {description}
         </Typography>
       </Box>
     </Box>
