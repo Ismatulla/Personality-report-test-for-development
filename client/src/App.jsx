@@ -35,8 +35,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/password-reset" element={<PasswordReset />} />
           <Route path="/password-update" element={<PasswordUpdate />} />
-          <Route path="/report" element={<Report />} />
-          <Route path={`/settings`} element={<Settings />} />
+          <Route path="/reports" element={<Report />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
         {((location.pathname && location.pathname === "/generate-report") ||
           location.pathname === "/reports") && <Footer />}
