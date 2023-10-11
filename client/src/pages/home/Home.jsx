@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import pasteBtn from "../../assets/paste-btn.svg";
 import arrow from "../../assets/arrow-1.svg";
 import instance from "../../utils/api";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./home.css";
+import CircularWithValueLabel from "../../components/circularProgress/CricularProgress";
 
 const Home = () => {
+  const data = useSelector((state) => state);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [url, setUrl] = useState("");
+  const searchParams = new URLSearchParams(location.search);
+  const [isLoading, setIsLoading] = useState(false);
+  const verifyUrl = url.length !== 0 ? false : true;
+  const queryparams = searchParams.get("query");
 
   const handleUrl = (e) => {
     const { value } = e.target;
@@ -14,12 +26,24 @@ const Home = () => {
   };
   const handleLinkedInUrl = async () => {
     try {
-      const response = await instance.post("linkedin-url", { url });
+      setIsLoading(true);
+      const response = await instance.post(
+        "linkedin-url",
+        {
+          link: url,
+          username: queryparams,
+        }
+      );
+      navigate(
+        `/reports?query=${response.data.chartype}&firstname=${response.data.first_name}&lastname=${response.data.last_name}&profpic=${response.data.prof_pic}&chartype=${response.data.chartype}`
+      );
+      setIsLoading(false);
       console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {}, []);
   return (
     <Box
       sx={{
@@ -72,6 +96,7 @@ const Home = () => {
         </Button>
       </Box>
       <Button
+        disabled={verifyUrl}
         variant="contained"
         onClick={handleLinkedInUrl}
         sx={{
@@ -94,10 +119,16 @@ const Home = () => {
           variant="p"
           className="fontPrompt font_weight_700 font_size_16 white_text"
           sx={{ display: "flex", gap: "1rem" }}>
-          Generate Personality Report
-          <span>
-            <img src={arrow} alt="arrow" width="100%" height="100%" />
-          </span>
+          {isLoading ? (
+            <CircularWithValueLabel value={100} />
+          ) : (
+            "Generate Personality Report "
+          )}
+          {!isLoading && (
+            <span>
+              <img src={arrow} alt="arrow" width="100%" height="100%" />
+            </span>
+          )}
         </Typography>
       </Button>
     </Box>

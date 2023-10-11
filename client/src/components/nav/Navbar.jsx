@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
-import { clearRefreshToken } from "../../utils/localStorage";
+import { clearRefreshToken, clearAccessToken } from "../../utils/localStorage";
 import "./navbar.css";
 // MUI components
 import {
@@ -39,6 +39,7 @@ function Navbar() {
     if (settings) {
       if (settings === "Logout") {
         clearRefreshToken();
+        clearAccessToken();
         navigate("/");
       }
       if (settings === "Reports") {

@@ -39,7 +39,7 @@ const Login = () => {
       setRefreshToken(response.data.refresh);
       setAccessToken(response.data.access);
       console.log(response.data);
-      navigate("/generate-report");
+      navigate(`/generate-report?query=${loginData.username}`);
     } catch (error) {
       console.error("Login Error:", error.response.data);
     }

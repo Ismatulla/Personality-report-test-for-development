@@ -4,8 +4,18 @@ import PersonalityReport from "../../components/personality-report/PersonalityRe
 import leftArrow from "../../assets/arrow-to-left.svg";
 import "./report.css";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Report = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const firstname = searchParams.get("firstname");
+  const lastname = searchParams.get("lastname");
+  const chartype = searchParams.get("chartype");
+  const prof = location.search.indexOf("profpic");
+  const char = location.search.indexOf("chartype");
+  const profpic = location.search.slice(59, char);
+  console.log(profpic);
   const [toggleClass, setToggleClass] = useState(false);
   const handleClass = () => {
     setToggleClass(!toggleClass);
@@ -55,17 +65,21 @@ const Report = () => {
       {/* end of mobile */}
 
       <Container className="reportContainer ">
-        <Box
-          className={`contacts ${
-            !toggleClass && "not-active"
-          }`}>
-          <Contacts />
+        <Box className={`contacts ${!toggleClass && "not-active"}`}>
+          <Contacts
+            firstname={firstname}
+            lastname={lastname}
+            profpic={profpic}
+            chartype={chartype}
+          />
         </Box>
-        <Box
-          className={`personalityReport ${
-            toggleClass && "not-active"
-          }`}>
-          <PersonalityReport />
+        <Box className={`personalityReport ${toggleClass && "not-active"}`}>
+          <PersonalityReport
+            firstname={firstname}
+            lastname={lastname}
+            profpic={profpic}
+            chartype={chartype}
+          />
         </Box>
       </Container>
     </>

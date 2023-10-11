@@ -6,7 +6,7 @@ import arrowDown from "../../assets/arrow-down.svg";
 import PersonalityTraits from "../personality-traits/PersonalityTraits";
 import { useEffect, useState, useRef } from "react";
 
-const PersonalityReport = () => {
+const PersonalityReport = ({ firstname, lastname, chartype, profpic }) => {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -75,7 +75,7 @@ const PersonalityReport = () => {
               variant="h2"
               sx={{ display: { md: "none" }, width: "60px", height: "60px" }}>
               <img
-                src={personProfile}
+                src={profpic}
                 alt="personprofile"
                 style={{ borderRadius: "8px" }}
                 width="100%"
@@ -95,7 +95,7 @@ const PersonalityReport = () => {
                 }}
                 variant="h2"
                 className="font_weight_400 fontPrompt">
-                Patric Ryan
+                {firstname} {lastname}
               </Typography>
               <Typography
                 variant="h6"
@@ -111,7 +111,7 @@ const PersonalityReport = () => {
                   fontSize: { xs: "1.4rem", md: "1.6rem" },
                 }}
                 className="fontRoboto font_weight_700">
-                Influencer (id)
+                {chartype}
               </Typography>
             </Box>
           </Box>
@@ -126,7 +126,7 @@ const PersonalityReport = () => {
         <div className="personalityReport_profile">
           <Box sx={{ width: "152px", height: "152px" }}>
             <img
-              src={personProfile}
+              src={profpic}
               alt="person profile"
               style={{
                 width: "100%",
@@ -147,7 +147,7 @@ const PersonalityReport = () => {
           <Box
             className="fontPrompt font_weight_400 font_size_48"
             sx={{ color: "black", marginBottom: "4rem" }}>
-            Influencer (Id)
+            {chartype}
           </Box>
           <Box className="fontRoboto font_weight_400 font_size_20">
             Lorem ipsum dolor sit amet ac faucibus senectus platea fusce turpis

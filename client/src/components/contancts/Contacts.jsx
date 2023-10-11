@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Box, Typography, Button, List, ListItem } from "@mui/material";
 import searchicon from "../../assets/search-icon.svg";
-import personalityColor from "../../assets/personality-indicator-color.svg";
 import smallArrow from "../../assets/sm-arrow.svg";
 import "../../components/../pages/report/report.css";
-const Contacts = () => {
+const Contacts = ({ firstname, lastname, profpic, chartype }) => {
   const [searchItem, setSearchItem] = useState("");
   return (
     <>
@@ -129,11 +128,17 @@ const Contacts = () => {
                 gap: "1.2rem",
                 flex: 2,
               }}>
-              <img src={personalityColor} alt="img" />{" "}
+              <img
+                src={profpic}
+                alt="img"
+                width="32px"
+                height="32px"
+                style={{ objectFit: "cover", borderRadius: "50%" }}
+              />{" "}
               <Typography
                 variant="p"
                 className="fontRoboto font_weight_400  font_size_16">
-                Patrick Ryan
+                {firstname} {lastname}
               </Typography>
             </ListItem>
             <ListItem
@@ -149,123 +154,6 @@ const Contacts = () => {
             </ListItem>
           </List>
           {/* end of one profile */}
-          <List
-            sx={{
-              padding: "13px 24px !important",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              borderBottom: "1px solid #e0e0e0",
-              cursor: "pointer",
-            }}>
-            <ListItem
-              sx={{
-                display: "flex",
-                justifyContent: "sapace-between",
-                alignItems: "center",
-                padding: "0 !important",
-                width: "100%",
-                gap: "1.2rem",
-                flex: 2,
-              }}>
-              <img src={personalityColor} alt="img" />{" "}
-              <Typography
-                variant="p"
-                className="fontRoboto font_weight_400  font_size_16">
-                Patrick Ryan
-              </Typography>
-            </ListItem>
-            <ListItem
-              sx={{
-                padding: "0 !important",
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-                flex: 1,
-              }}>
-              {" "}
-              <img src={smallArrow} alt="arrow" />
-            </ListItem>
-          </List>
-          <List
-            sx={{
-              padding: "13px 24px !important",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              borderBottom: "1px solid #e0e0e0",
-              cursor: "pointer",
-            }}>
-            <ListItem
-              sx={{
-                display: "flex",
-                justifyContent: "sapace-between",
-                alignItems: "center",
-                padding: "0 !important",
-                width: "100%",
-                gap: "1.2rem",
-                flex: 2,
-              }}>
-              <img src={personalityColor} alt="img" />{" "}
-              <Typography
-                variant="p"
-                className="fontRoboto font_weight_400  font_size_16">
-                Patrick Ryan
-              </Typography>
-            </ListItem>
-            <ListItem
-              sx={{
-                padding: "0 !important",
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-                flex: 1,
-              }}>
-              {" "}
-              <img src={smallArrow} alt="arrow" />
-            </ListItem>
-          </List>
-          <List
-            sx={{
-              padding: "13px 24px !important",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
-              borderBottom: "1px solid #e0e0e0",
-              cursor: "pointer",
-            }}>
-            <ListItem
-              sx={{
-                display: "flex",
-                justifyContent: "sapace-between",
-                alignItems: "center",
-                padding: "0 !important",
-                width: "100%",
-                gap: "1.2rem",
-                flex: 2,
-              }}>
-              <img src={personalityColor} alt="img" />{" "}
-              <Typography
-                variant="p"
-                className="fontRoboto font_weight_400  font_size_16">
-                Patrick Ryan
-              </Typography>
-            </ListItem>
-            <ListItem
-              sx={{
-                padding: "0 !important",
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-end",
-                flex: 1,
-              }}>
-              {" "}
-              <img src={smallArrow} alt="arrow" />
-            </ListItem>
-          </List>
         </Box>
       </Box>
     </>

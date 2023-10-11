@@ -1,5 +1,5 @@
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://127.0.0.1:8000/users/' })
+const instance = axios.create({ baseURL: 'https://thiernobalde95.pythonanywhere.com/users/' })
 
 // intercept requests and add authorization header with access token 
 
