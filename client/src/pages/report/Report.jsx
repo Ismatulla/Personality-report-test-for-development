@@ -12,9 +12,10 @@ const Report = () => {
   const firstname = searchParams.get("firstname");
   const lastname = searchParams.get("lastname");
   const chartype = searchParams.get("chartype");
-  const prof = location.search.indexOf("profpic");
-  const char = location.search.indexOf("chartype");
-  const profpic = location.search.slice(59, char);
+  const prof = location.search.lastIndexOf("profpic");
+  const char = location.search.lastIndexOf("chartype");
+  const profpic = location.search.slice(prof + 8, char);
+  console.log(location.search);
   console.log(profpic);
   const [toggleClass, setToggleClass] = useState(false);
   const handleClass = () => {
