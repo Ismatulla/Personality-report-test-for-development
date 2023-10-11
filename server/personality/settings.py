@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -125,7 +125,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# DATABASES["default"]=dj_database_url.parse("postgres://fayyoz_personal_user:ACBNlZu8iEKmVtWgfzOnhLVc47BoVjqH@dpg-ckj1or0mccbs73cduu0g-a.oregon-postgres.render.com/fayyoz_personal")
+# postgres://fayyoz_personal_user:ACBNlZu8iEKmVtWgfzOnhLVc47BoVjqH@dpg-ckj1or0mccbs73cduu0g-a.oregon-postgres.render.com/fayyoz_personal
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

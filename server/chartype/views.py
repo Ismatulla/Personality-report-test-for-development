@@ -132,17 +132,13 @@ class LinkedinUrl(views.APIView):
                 responses={"chartype":predictions_dict[predicted_character[0]],
                             "first_name":first_name,
                             "last_name":last_name, "prof_pic":prof_pic}
-                
-                user_linkedin_data = {
-                                    'user': user,
-                                    'linkedin_url': link,
-                                    'first_name': first_name,
-                                    'last_name': last_name,
-                                    'chartype': predicted_character,
-                                    'prof_pic': prof_pic}
-                serializer_linkedin = LinkedinSerializer(data=user_linkedin_data)
-                if serializer_linkedin.is_valid():
-                    serializer_linkedin.save()
+                try:
+                    new_link = Linkedin_data.objects.create(user=user, linkedin_url=link, first_name=first_name,
+                                                            last_name=last_name, chartype=predictions_dict[predicted_character[0]],
+                                                            prof_pic=prof_pic)
+                    new_link.save()
+                except:
+                    print("AAAAAAAAAAA")
 
                 return response.Response(responses)
             except:
