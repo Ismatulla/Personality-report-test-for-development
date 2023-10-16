@@ -16,15 +16,29 @@ const Home = () => {
   const searchParams = new URLSearchParams(location.search);
   const [isLoading, setIsLoading] = useState(false);
   const verifyUrl = url.length !== 0 ? false : true;
-  const queryparams = searchParams.get("username");
-  console.log(queryparams);
+  const username = searchParams.get("username");
+
   const handleUrl = (e) => {
     const { value } = e.target;
     setUrl(value);
   };
-  const handleLinkedInUrl = () => {
-    if (url.length !== 0) {
-      navigate(`/reports?username=${queryparams}&url=${url}`);
+  const handleLinkedInUrlPost = async () => {
+    try {
+      setIsLoading(true);
+      const response = await instance.post("/users/linkedin-url", {
+        link: url,
+        username: username,
+      });
+      setIsLoading(false);
+      console.log(response);
+
+      if (response.status === 200 && url.length !== 0) {
+        navigate(
+          `/reports?username=${username}&url=${url}&chartype=${response.data.chartype}`
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -81,7 +95,7 @@ const Home = () => {
       <Button
         disabled={verifyUrl}
         variant="contained"
-        onClick={handleLinkedInUrl}
+        onClick={handleLinkedInUrlPost}
         sx={{
           textTransform: "none",
           margin: "0 auto",
@@ -93,7 +107,7 @@ const Home = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: "0.55rem",
-          maxWidth: { xs: "100%", md: "319px" },
+          maxWidth: { xs: "100%", md: "380px" },
           lineHeight: "2.4rem",
         }}
         fullWidth

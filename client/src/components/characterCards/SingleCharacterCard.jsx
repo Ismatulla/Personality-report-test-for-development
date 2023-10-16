@@ -1,8 +1,12 @@
 import { Box, Typography } from "@mui/material";
+import "./characterCard.css";
 
 const SingleCharacterCard = ({ charTitle, description }) => {
   return (
-    <Box sx={{ marginTop: { xs: "6rem", md: "8rem" } }}>
+    <Box
+      sx={{
+        marginTop: { xs: "6rem", md: "8rem" },
+      }}>
       <Typography
         variant="h1"
         component="h1"
@@ -14,16 +18,19 @@ const SingleCharacterCard = ({ charTitle, description }) => {
         sx={{
           border: "1px solid  #e0e0e0",
           borderRadius: "8px",
-          minHeight: "300px",
+          minHeight: "100%",
         }}>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-          
-          }}>
-          {description}
-        </Typography>
+        {description?.map((describe, id) => (
+          <Typography
+            key={id}
+            className="fontRoboto font_weight_400 font_size_20 singleCard_datas"
+            sx={{
+              padding: "2.9rem 2rem 2.9rem 2rem",
+              borderBottom: "1px solid  #e0e0e0",
+            }}>
+            {describe}
+          </Typography>
+        ))}
       </Box>
     </Box>
   );

@@ -59,7 +59,7 @@ const SignUp = () => {
   };
   const handleSignUp = async () => {
     try {
-      const response = await instance.post("signup", userData);
+      const response = await instance.post("/users/signup", userData);
       notifySuccess();
       if (response.status === 201) {
         navigate("/");

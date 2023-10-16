@@ -24,14 +24,17 @@ const TeamRoles = ({ charTitle, borderColor, description }) => {
           minHeight: "100%",
           borderTop: `8px solid ${borderColor}`,
         }}>
-        <Typography
-          className="fontRoboto font_weight_400 font_size_20"
-          sx={{
-            padding: "2.9rem 2rem 2.9rem 2rem",
-            borderBottom: "1px solid  #e0e0e0",
-          }}>
-          {description}
-        </Typography>
+        {description?.map((describe, id) => (
+          <Typography
+            key={id}
+            className="fontRoboto font_weight_400 font_size_20 singleCard_datas"
+            sx={{
+              padding: "2.9rem 2rem 2.9rem 2rem",
+              borderBottom: "1px solid  #e0e0e0",
+            }}>
+            {describe}
+          </Typography>
+        ))}
       </Box>
     </Box>
   );

@@ -48,7 +48,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await instance.post("api/token/", loginData);
+      const response = await instance.post("/users/api/token/", loginData);
       notifySuccess();
       setRefreshToken(response.data.refresh);
       setAccessToken(response.data.access);

@@ -1,4 +1,10 @@
-import { Container, Box, Button, Typography } from "@mui/material";
+import {
+  Container,
+  Box,
+  Button,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import Contacts from "../../components/contancts/Contacts";
 import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import leftArrow from "../../assets/arrow-to-left.svg";
@@ -9,45 +15,62 @@ import instance from "../../utils/api";
 
 const Report = () => {
   const location = useLocation();
+  const [isReportPageLoading, setIsReportPageLoading] = useState(false);
   const searchParams = new URLSearchParams(location.search);
   const username = searchParams.get("username");
-  const [toggleClass, setToggleClass] = useState(false);
-  const [data, setData] = useState([]);
-  const [linkedinData, setLinkedinData] = useState({});
-  const handleClass = () => {
-    setToggleClass(!toggleClass);
-  };
+  const chartype = searchParams.get("chartype");
   const url = searchParams.get("url");
 
-  const handleLinkedInUrl = async () => {
+  const [toggleClass, setToggleClass] = useState(true);
+  const [contact, setContact] = useState(false);
+
+  const [data, setData] = useState([]);
+  const [linkedinData, setLinkedinData] = useState({});
+
+  const handleClass = () => {
+    setToggleClass(!toggleClass);
+    setContact(true);
+  };
+
+  const handleContact = (value) => {
+    setContact(value);
+    setToggleClass(true);
+  };
+
+  const getAllContacts = async () => {
     try {
-      const response = await instance.get(`linkedin-url?username=${username}`);
+      const response = await instance.get(
+        `/users/linkedin-url?username=${username}`
+      );
       setData(response.data);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleLinkedInUrlPost = async () => {
+  const getSingleReport = async () => {
     try {
-      const response = await instance.post("linkedin-url", {
-        link: url,
-        username: username,
-      });
-      console.log(response.data);
+      setIsReportPageLoading(true);
+      const response = await instance.get(
+        `/chartype/data-sender?chartype=${chartype}&url=${url}`
+      );
       setLinkedinData(response.data);
+      setIsReportPageLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    handleLinkedInUrl();
-    handleLinkedInUrlPost();
+    getAllContacts();
   }, []);
+
+  useEffect(() => {
+    getSingleReport();
+  }, [url]);
+ 
   return (
     <>
       {/* mobile  */}
-      {!toggleClass && (
+      {toggleClass && (
         <Box
           sx={{
             display: {
@@ -86,14 +109,30 @@ const Report = () => {
         </Box>
       )}
       {/* end of mobile */}
-
       <Container className="reportContainer ">
-        <Box className={`contacts ${!toggleClass && "not-active"}`}>
-          <Contacts data={data} />
+        <Box className={`contacts ${contact ? "active" : "not-active"}`}>
+          <Contacts data={data} handleContact={handleContact} />
         </Box>
-        <Box className={`personalityReport ${toggleClass && "not-active"}`}>
-          <PersonalityReport linkedinData={linkedinData} />
-        </Box>
+        {isReportPageLoading ? (
+          <Box
+            sx={{
+              height: "100vh",
+              width: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+            {" "}
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            className={`personalityReport ${
+              toggleClass ? "active" : "not-active"
+            }`}>
+            <PersonalityReport linkedinData={linkedinData} />
+          </Box>
+        )}
       </Container>
     </>
   );

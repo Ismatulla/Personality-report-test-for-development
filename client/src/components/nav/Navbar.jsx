@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
 import { clearRefreshToken, clearAccessToken } from "../../utils/localStorage";
+import { getAccessToken } from "../../utils/localStorage";
+import instance from "../../utils/api";
 import "./navbar.css";
 // MUI components
 import {
@@ -24,17 +26,47 @@ const settings = ["Reports", "Settings", "Logout"];
 const profiles = ["English (en)", "Dutch (nl)"];
 
 function Navbar() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isReportLoading, setIsReportLoading] = useState(false);
+
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [data, setData] = useState([]);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const username = searchParams.get("username");
+
+  const token = getAccessToken();
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
   const handleOpenProfile = (event) => {
     setUserProfile(event.currentTarget);
   };
+
+  // get all contacts
+
+  const getAllContacts = async () => {
+    try {
+      const response = await instance.get(
+        `/users/linkedin-url?username=${username}`
+      );
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllContacts();
+  }, []);
+  console.log(data);
+  //&chartype
+  const url = data && data[data?.length - 1]?.linkedin_url;
+  const chartype = data && data[data?.length - 1]?.chartype;
+
+  console.log(url.length, chartype.length);
   const handleCloseUserMenu = (settings) => {
     if (settings) {
       if (settings === "Logout") {
@@ -43,7 +75,10 @@ function Navbar() {
         navigate("/");
       }
       if (settings === "Reports") {
-        navigate("/reports");
+        if (url.length == 0 && chartype.length == 0) return;
+        navigate(
+          `/reports?username=${username}&url=${url}&chartype=${chartype}`
+        );
       }
       if (settings === "Settings") {
         navigate("/settings");
@@ -78,9 +113,10 @@ function Navbar() {
             minHeight: "0 !important",
             padding: { xs: "32px", md: "0" },
           }}>
-          <Link to="/">
-            <Typography sx={{ mr: 1, display: { xs: "none", md: "block" } }}>
-              <img src={navbarLogo} alt="" />
+          <Link
+            to={token !== null ? `/generate-report?username=${username}` : "/"}>
+            <Typography sx={{ mr: 1, display: "block" }}>
+              {token !== null && <img src={navbarLogo} alt="" />}
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
@@ -124,21 +160,18 @@ function Navbar() {
                 </MenuItem>
               ))}
             </Menu>
-            {location.pathname !== "/" &&
-              location.pathname !== "/signup" &&
-              location.pathname !== "/password-reset" &&
-              location.pathname !== "/password-update" && (
-                <Button
-                  sx={{ padding: "0 !important" }}
-                  onClick={handleOpenUserMenu}>
-                  <img
-                    src={profilePic}
-                    alt="profilePic"
-                    width="48px"
-                    height="48px"
-                  />
-                </Button>
-              )}
+            {token !== null && (
+              <Button
+                sx={{ padding: "0 !important" }}
+                onClick={handleOpenUserMenu}>
+                <img
+                  src={profilePic}
+                  alt="profilePic"
+                  width="48px"
+                  height="48px"
+                />
+              </Button>
+            )}
 
             <Menu
               sx={{ mt: "45px" }}
