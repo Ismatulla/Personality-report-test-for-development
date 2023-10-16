@@ -7,7 +7,7 @@ import "./login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import googleFetch from "../../utils/googleApi";
 // MUI components
 import {
   Box,
@@ -76,22 +76,20 @@ const Login = () => {
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log("Login Falied:", error),
   });
+
+  const fetchGoogleData = async () => {
+    try {
+      const response = await googleFetch.get(`${user.access_token}`);
+      setAccessToken(response.acess_token);
+      setProfile(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (user) {
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token} `,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setProfile(res.data);
-        })
-        .catch((err) => console.log(err));
+      fetchGoogleData();
     }
   }, [user]);
 
