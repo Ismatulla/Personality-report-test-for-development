@@ -6,8 +6,8 @@ import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
-import { GoogleLogin } from "@react-oauth/google";
-
+import { googleLogout, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 // MUI components
 import {
   Box,
@@ -67,6 +67,39 @@ const Login = () => {
       console.error("Login Error:", error.response.data);
     }
   };
+
+  // google login
+  const [user, setUser] = useState([]);
+  const [proflie, setProfile] = useState([]);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Falied:", error),
+  });
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token} `,
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setProfile(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user]);
+
+  const logout = () => {
+    googleLogout();
+    setProfile(null);
+  };
+  // end
   return (
     <Container
       sx={{
@@ -105,16 +138,14 @@ const Login = () => {
           </Typography>
           <Grid container spacing={5}>
             <Grid item xs={6}>
-              <Button className="auth_btns fontPrompt font_weight_400 font_size_16">
+              <Button
+                className="auth_btns fontPrompt font_weight_400 font_size_16"
+                onClick={() => login()}>
                 <img src={googleLogo} alt="google logo" />
                 <Typography variant="p" style={{ marginLeft: "1rem" }}>
                   {" "}
                   Google
                 </Typography>
-                <GoogleLogin
-                  onSuccess={responseMessage}
-                  onError={errorMessage}
-                />
               </Button>
             </Grid>
             <Grid item xs={6}>
