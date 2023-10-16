@@ -99,6 +99,7 @@ const Login = () => {
     googleLogout();
     setProfile(null);
   };
+  console.log(user, proflie);
   // end
   return (
     <Container
