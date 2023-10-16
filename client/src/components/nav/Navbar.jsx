@@ -59,14 +59,13 @@ function Navbar() {
     }
   };
   useEffect(() => {
-    getAllContacts();
+    // getAllContacts();
   }, []);
-  console.log(data);
-  //&chartype
-  const url = data && data[data?.length - 1]?.linkedin_url;
-  const chartype = data && data[data?.length - 1]?.chartype;
+  // console.log(data);
+  // &chartype
+  // const url = data && data[data?.length - 1]?.linkedin_url;
+  // const chartype = data && data[data?.length - 1]?.chartype;
 
-  console.log(url.length, chartype.length);
   const handleCloseUserMenu = (settings) => {
     if (settings) {
       if (settings === "Logout") {
@@ -74,12 +73,11 @@ function Navbar() {
         clearAccessToken();
         navigate("/");
       }
-      if (settings === "Reports") {
-        if (url.length == 0 && chartype.length == 0) return;
-        navigate(
-          `/reports?username=${username}&url=${url}&chartype=${chartype}`
-        );
-      }
+      // if (settings === "Reports") {
+      // navigate(
+      // `/reports?username=${username}&url=${url}&chartype=${chartype}`
+      // );
+      // }
       if (settings === "Settings") {
         navigate("/settings");
       }

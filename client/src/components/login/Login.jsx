@@ -6,6 +6,7 @@ import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
+import { GoogleLogin } from "@react-oauth/google";
 
 // MUI components
 import {
@@ -24,6 +25,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
+
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
   const navigate = useNavigate();
   const notifySuccess = () =>
     toast.success("Seccessful login", {
@@ -103,6 +111,10 @@ const Login = () => {
                   {" "}
                   Google
                 </Typography>
+                <GoogleLogin
+                  onSuccess={responseMessage}
+                  onError={errorMessage}
+                />
               </Button>
             </Grid>
             <Grid item xs={6}>
