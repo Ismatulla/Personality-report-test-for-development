@@ -3,7 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
-import { clearRefreshToken, clearAccessToken } from "../../utils/localStorage";
+import {
+  clearRefreshToken,
+  clearAccessToken,
+  clearUsername,
+} from "../../utils/localStorage";
 import { getAccessToken } from "../../utils/localStorage";
 import instance from "../../utils/api";
 import "./navbar.css";
@@ -71,6 +75,7 @@ function Navbar() {
       if (settings === "Logout") {
         clearRefreshToken();
         clearAccessToken();
+        clearUsername();
         navigate("/");
       }
       // if (settings === "Reports") {

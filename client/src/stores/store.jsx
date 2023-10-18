@@ -1,8 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducers from "../reducers/reportResult";
+import reportsSlice from "../reducers/reportsSlice";
 
 const store = configureStore({
-  reducer: rootReducers,
+  reducer: {
+    report: reportsSlice,
+  },
+
+  devTools: true,
 });
 
 export default store;

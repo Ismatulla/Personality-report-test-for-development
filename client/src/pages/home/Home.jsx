@@ -5,6 +5,8 @@ import arrow from "../../assets/arrow-1.svg";
 import instance from "../../utils/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { reports } from "../../reducers/reportsSlice";
+import { getUsername } from "../../utils/localStorage";
 import "./home.css";
 import CircularWithValueLabel from "../../components/circularProgress/CricularProgress";
 
@@ -12,6 +14,7 @@ const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const data = useSelector((state) => state);
   const [url, setUrl] = useState("");
   const searchParams = new URLSearchParams(location.search);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +44,14 @@ const Home = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const userToken = getUsername();
+    if (userToken) {
+      dispatch(reports(userToken));
+    }
+  }, [getUsername, dispatch]);
+  console.log(data);
   return (
     <Box
       sx={{

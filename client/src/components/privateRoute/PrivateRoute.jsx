@@ -1,11 +1,10 @@
-import { Route, Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { getAccessToken } from "../../utils/localStorage";
+const PrivateRoute = () => {
+  const accessToken = getAccessToken();
+  const isLoggedIn = accessToken !== null;
 
-const PrivateRoute = ({ element: Element }) => {
-  const accessToken = localStorage.getItem("accessToken");
-
-  return (
-    <Route element={accessToken ? <Element /> : <Navigate to="/" replace />} />
-  );
+  return isLoggedIn ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;

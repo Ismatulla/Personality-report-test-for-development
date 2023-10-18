@@ -57,16 +57,24 @@ const SignUp = () => {
       [name]: value,
     }));
   };
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await instance.post("/users/signup", userData);
-      notifySuccess();
+
+      if (Object.keys(userData).length !== 0) {
+        notifySuccess();
+      }
+
       if (response.status === 201) {
         navigate("/");
       }
     } catch (error) {
       notifyError();
-      console.log("Signup Error:", error.response.data);
+      if (Object.keys(userData).length !== 0) {
+        console.log("Signup Error:", error.response.data);
+      }
     }
   };
 
@@ -163,7 +171,10 @@ const SignUp = () => {
             sx={{ color: "#000000", marginTop: "3rem" }}>
             Create a new account
           </Typography>
-          <Box sx={{ width: "100%", marginTop: 2 }}>
+          <Box
+            component="form"
+            sx={{ width: "100%", marginTop: 2 }}
+            onSubmit={handleSignUp}>
             <TextField
               required
               fullWidth
@@ -253,7 +264,6 @@ const SignUp = () => {
                   borderBottom: { xs: "1px solid #e0e0e0", md: "none" },
                 }}>
                 <Button
-                  onClick={handleSignUp}
                   type="submit"
                   variant="contained"
                   sx={{
