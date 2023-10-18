@@ -14,3 +14,7 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked + label::before {
   visibility: visible; /* Show the checkmark when the checkbox is checked */
 }
+
+iframe {
+  margin: 0 auto !important;
+}

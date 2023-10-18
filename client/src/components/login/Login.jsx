@@ -1,20 +1,12 @@
 import { useEffect, useState } from "react";
 import instance from "../../utils/api";
-import {
-  setRefreshToken,
-  setAccessToken,
-  setUsernameToLocalStorage,
-  getUsername,
-} from "../../utils/localStorage";
+import { setRefreshToken, setAccessToken } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
 import googleLogo from "../../assets/devicon_google.svg";
 import linkedinLogo from "../../assets/devicon_linkedin.svg";
-import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { reports } from "../../reducers/reportsSlice";
+
 // MUI components
 import {
   Box,
@@ -33,10 +25,6 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
   // google login
-  const [user, setUser] = useState([]);
-  const [profile, setProfile] = useState({});
-  const userData = useSelector((state) => state);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // error notify
@@ -87,51 +75,23 @@ const Login = () => {
   //
 
   // login with google
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log("Login Falied:", error),
-  });
-
-  const fetchGoogleData = async () => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-      setProfile(response?.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleCallbackResponse = (response) => {
+    console.log(response.credential);
   };
-
   useEffect(() => {
-    if (Object.keys(profile).length !== 0) {
-      navigate("/generate-report");
-    }
-  }, [profile, loginData.username]);
-
-  useEffect(() => {
-    if (user.length !== 0) {
-      fetchGoogleData();
-      setAccessToken(user.access_token);
-    }
-  }, [user]);
+    google.accounts.id.initialize({
+      client_id:
+        "849651981874-dmni4fkaqmipuo8r9g2lrlg0n8qa2fpn.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "outline",
+      size: "large",
+    });
+  }, []);
 
   // end of google login
-  // saving username to localStorage
 
-  useEffect(() => {
-    if (Object.keys(profile).length !== 0) {
-      setUsernameToLocalStorage(profile.name);
-    } else if (loginData.username.length !== "") {
-      setUsernameToLocalStorage(loginData.username);
-    }
-  }, [profile, loginData]);
   return (
     <>
       <Container
@@ -170,25 +130,24 @@ const Login = () => {
               Login using
             </Typography>
             <Grid container spacing={5}>
-              <Grid item xs={6}>
-                <Button
-                  className="auth_btns fontPrompt font_weight_400 font_size_16"
-                  onClick={() => login()}>
-                  <img src={googleLogo} alt="google logo" />
-                  <Typography variant="p" style={{ marginLeft: "1rem" }}>
-                    {" "}
-                    Google
-                  </Typography>
-                </Button>
+              <Grid item xs={12}>
+                {/* <Button className="auth_btns fontPrompt font_weight_400 font_size_16"> */}
+                {/* <img src={googleLogo} alt="google logo" /> */}
+                {/* <Typography variant="p" style={{ marginLeft: "1rem" }}> */}
+                {/* {" "} */}
+                {/* Google */}
+                {/* </Typography> */}
+                {/* </Button> */}
+                <div id="signInDiv" style={{ width: "100%" }}></div>
               </Grid>
-              <Grid item xs={6}>
-                <Button className="auth_btns fontPrompt font_weight_400 font_size_16">
-                  <img src={linkedinLogo} alt="linkedin logo" />
-                  <Typography variant="p" style={{ marginLeft: "1rem" }}>
-                    LinkedIn
-                  </Typography>
-                </Button>
-              </Grid>
+              {/* <Grid item xs={6}> */}
+              {/* <Button className="auth_btns fontPrompt font_weight_400 font_size_16"> */}
+              {/* <img src={linkedinLogo} alt="linkedin logo" /> */}
+              {/* <Typography variant="p" style={{ marginLeft: "1rem" }}> */}
+              {/* LinkedIn */}
+              {/* </Typography> */}
+              {/* </Button> */}
+              {/* </Grid> */}
             </Grid>
             <Grid
               container

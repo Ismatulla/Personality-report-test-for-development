@@ -21,6 +21,8 @@ import NotFound from "./components/notfound/NotFound";
 
 function App() {
   const location = useLocation();
+
+  
   return (
     <div>
       <Navbar />
