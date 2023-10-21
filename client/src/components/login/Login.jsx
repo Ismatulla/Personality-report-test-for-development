@@ -78,7 +78,7 @@ const Login = () => {
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
-        "515811412387-rn7q0kgi17ekqsj3kqpv3p0d8l6caosn.apps.googleusercontent.com",
+        "849651981874-dmni4fkaqmipuo8r9g2lrlg0n8qa2fpn.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
