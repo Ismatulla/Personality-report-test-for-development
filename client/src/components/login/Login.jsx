@@ -4,9 +4,11 @@ import { setRefreshToken, setAccessToken } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
-import googleLogo from "../../assets/devicon_google.svg";
-import linkedinLogo from "../../assets/devicon_linkedin.svg";
+import { CircularProgress } from "@mui/material";
 
+import { setEmail, getEmail, setProfPic } from "../../utils/localStorage";
+// redux toolkit import
+//
 // MUI components
 import {
   Box,
@@ -23,19 +25,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
-  // google login
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
-
-  // error notify
-  const notifySuccess = () =>
-    toast.success("Seccessful login", {
-      theme: "colored",
-      style: {
-        fontSize: "1.5rem",
-      },
-    });
-
+  const [credential, setCredential] = useState("");
+  console.log(isGoogleLoading);
   const notifyError = (errorMessage) =>
     toast.error(`You are ${errorMessage}`, {
       theme: "colored",
@@ -45,43 +40,45 @@ const Login = () => {
     });
 
   //
-
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   // login with form
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setEmail(loginData.email);
     try {
+      setIsLoading(true);
       const response = await instance.post("/users/api/token/", loginData);
-      notifySuccess();
+      console.log(response);
       if (response?.data) {
         setRefreshToken(response.data.refresh);
         setAccessToken(response.data.access);
       }
+      setIsLoading(false);
       console.log(response.data);
-      navigate(`/generate-report?username=${loginData.username}`);
+      navigate(`/generate-report?email=${loginData.email}`);
     } catch (error) {
+      setLoginData(false);
       if (Object.keys(loginData).length !== 0) {
         notifyError(error.response.statusText?.toLowerCase());
       }
-      console.error("Login Error:", error.response.statusText);
+      console.error("Login Error:", error);
     }
   };
   //
-
   // login with google
   const handleCallbackResponse = (response) => {
+    setAccessToken(response.credential);
+    setCredential(response.credential);
     console.log(response.credential);
   };
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
-        "849651981874-dmni4fkaqmipuo8r9g2lrlg0n8qa2fpn.apps.googleusercontent.com",
+        "515811412387-rn7q0kgi17ekqsj3kqpv3p0d8l6caosn.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -89,9 +86,34 @@ const Login = () => {
       size: "large",
     });
   }, []);
-
+  const handleGoogleLogin = async () => {
+    try {
+      if (credential) {
+        setIsGoogleLoading(true);
+        const response = await instance.post("/users/google/", {
+          auth_token: credential,
+        });
+        if (response.status == 200) {
+          setEmail(response.data.email);
+          setAccessToken(response.data.tokens.access);
+          setRefreshToken(response.data.tokens.refresh);
+          console.log(response.data);
+          const email = getEmail();
+          if (email) {
+            navigate(`/generate-report?email=${email}`);
+          }
+        }
+        setIsGoogleLoading(false);
+      }
+    } catch (error) {
+      setIsGoogleLoading(false);
+      notifyError(error.response.statusText?.toLowerCase());
+    }
+  };
   // end of google login
-
+  useEffect(() => {
+    handleGoogleLogin();
+  }, [credential]);
   return (
     <>
       <Container
@@ -138,7 +160,14 @@ const Login = () => {
                 {/* Google */}
                 {/* </Typography> */}
                 {/* </Button> */}
-                <div id="signInDiv" style={{ width: "100%" }}></div>
+                {isGoogleLoading ? (
+                  <Box sx={{ display: "fex", justifyContent: "center" }}>
+                    {" "}
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <div id="signInDiv" style={{ width: "100%" }}></div>
+                )}
               </Grid>
               {/* <Grid item xs={6}> */}
               {/* <Button className="auth_btns fontPrompt font_weight_400 font_size_16"> */}
@@ -194,16 +223,15 @@ const Login = () => {
               <TextField
                 required
                 fullWidth
-                label="Username"
-                name="username"
-                value={loginData.username}
+                label="Email"
+                name="email"
+                value={loginData.email}
                 onChange={handleInputChange}
                 sx={{ marginBottom: "2rem", color: "#a0a0a0" }}
                 InputLabelProps={{ style: { fontSize: "1.6rem" } }}
                 InputProps={{ style: { fontSize: "1.6rem" } }}
-                className="fontRoboto font_size_16 font_weight_400"
+                className="fontPrompt font_weight_400 font_size_16"
               />
-
               <TextField
                 required
                 fullWidth
@@ -252,6 +280,7 @@ const Login = () => {
                   <Button
                     type="submit"
                     variant="contained"
+                    disabled={isLoading}
                     sx={{
                       textTransform: "none",
                       margin: "3rem 0",
@@ -263,7 +292,7 @@ const Login = () => {
                     }}
                     fullWidth
                     className="fontPrompt font_weight_400 font_size_16">
-                    Login
+                    {isLoading ? <CircularProgress /> : "Login"}
                   </Button>
                 </Grid>
               </Grid>

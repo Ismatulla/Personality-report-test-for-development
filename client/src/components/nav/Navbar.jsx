@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
+
 import {
   clearRefreshToken,
   clearAccessToken,
-  clearUsername,
+  clearProfPic,
+  clearEmail,
 } from "../../utils/localStorage";
-import { getAccessToken } from "../../utils/localStorage";
+import { getAccessToken, getEmail } from "../../utils/localStorage";
 import instance from "../../utils/api";
 import "./navbar.css";
 // MUI components
@@ -31,15 +33,11 @@ const profiles = ["English (en)", "Dutch (nl)"];
 
 function Navbar() {
   const [isReportLoading, setIsReportLoading] = useState(false);
-
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [data, setData] = useState([]);
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const username = searchParams.get("username");
 
   const token = getAccessToken();
   const handleOpenUserMenu = (event) => {
@@ -51,38 +49,41 @@ function Navbar() {
   };
 
   // get all contacts
-
+  const email = getEmail();
   const getAllContacts = async () => {
     try {
-      const response = await instance.get(
-        `/users/linkedin-url?username=${username}`
-      );
+      const response = await instance.get(`/users/linkedin-url?email=${email}`);
       setData(response.data);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    // getAllContacts();
-  }, []);
-  // console.log(data);
-  // &chartype
-  // const url = data && data[data?.length - 1]?.linkedin_url;
-  // const chartype = data && data[data?.length - 1]?.chartype;
+    if (token) {
+      getAllContacts();
+    }
+  }, [token]);
+
+  const url = data && data[0]?.linkedin_url;
+  const chartype = data && data[0]?.chartype;
 
   const handleCloseUserMenu = (settings) => {
     if (settings) {
       if (settings === "Logout") {
         clearRefreshToken();
         clearAccessToken();
-        clearUsername();
+        clearProfPic();
+        clearEmail();
         navigate("/");
       }
-      // if (settings === "Reports") {
-      // navigate(
-      // `/reports?username=${username}&url=${url}&chartype=${chartype}`
-      // );
-      // }
+      if (settings === "Reports") {
+        if (data.length == 0) {
+          setAnchorElUser(null);
+          navigate(`/generate-report?email=${email}`);
+        } else {
+          navigate(`/reports?email=${email}&url=${url}&chartype=${chartype}`);
+        }
+      }
       if (settings === "Settings") {
         navigate("/settings");
       }
@@ -116,8 +117,7 @@ function Navbar() {
             minHeight: "0 !important",
             padding: { xs: "32px", md: "0" },
           }}>
-          <Link
-            to={token !== null ? `/generate-report?username=${username}` : "/"}>
+          <Link to={token !== null ? `/generate-report?email=${email}` : "/"}>
             <Typography sx={{ mr: 1, display: "block" }}>
               {token !== null && <img src={navbarLogo} alt="" />}
             </Typography>

@@ -9,10 +9,10 @@ import { Link, useLocation } from "react-router-dom";
 const Contacts = ({ data, handleContact }) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const email = searchParams.get("email");
 
   const [searchItem, setSearchItem] = useState("");
 
-  const username = searchParams.get("username");
 
   const handleToggle = () => {
     handleContact(false);
@@ -147,7 +147,7 @@ const Contacts = ({ data, handleContact }) => {
                 <Link
                   onClick={handleToggle}
                   style={{ textDecoration: "none" }}
-                  to={`/reports?username=${username}&url=${dts.linkedin_url}&chartype=${dts.chartype}`}
+                  to={`/reports?email=${email}&url=${dts.linkedin_url}&chartype=${dts.chartype}`}
                   key={id}>
                   <List
                     key={id}

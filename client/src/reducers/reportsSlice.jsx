@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsername } from "../utils/localStorage";
 const initialState = {
-  username: getUsername() ? getUsername() : null,
+  username: null,
+  isOpen: true,
 };
 
 const reportSlice = createSlice({
@@ -11,8 +11,11 @@ const reportSlice = createSlice({
     reports: (state, action) => {
       state.username = action.payload;
     },
+    modalWindow: (state, action) => {
+      state.isOpen = action.payload;
+    },
   },
 });
 
 export default reportSlice.reducer;
-export const { reports } = reportSlice.actions;
+export const { reports, modalWindow } = reportSlice.actions;

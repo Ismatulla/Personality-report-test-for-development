@@ -1,57 +1,59 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import pasteBtn from "../../assets/paste-btn.svg";
 import arrow from "../../assets/arrow-1.svg";
 import instance from "../../utils/api";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { reports } from "../../reducers/reportsSlice";
-import { getUsername } from "../../utils/localStorage";
+import { modalWindow } from "../../reducers/reportsSlice";
+import { getEmail } from "../../utils/localStorage";
+import waiting from "../../assets/waiting.svg";
 import "./home.css";
-import CircularWithValueLabel from "../../components/circularProgress/CricularProgress";
+
+import ModalWindow from "../../components/loginModal/ModalWindow";
 
 const Home = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const data = useSelector((state) => state);
   const [url, setUrl] = useState("");
-  const searchParams = new URLSearchParams(location.search);
+
   const [isLoading, setIsLoading] = useState(false);
   const verifyUrl = url.length !== 0 ? false : true;
-  const username = searchParams.get("username");
-
   const handleUrl = (e) => {
     const { value } = e.target;
     setUrl(value);
   };
+
   const handleLinkedInUrlPost = async () => {
+    const userEmail = getEmail();
+    console.log(userEmail);
+    console.log(url);
     try {
       setIsLoading(true);
-      const response = await instance.post("/users/linkedin-url", {
-        link: url,
-        username: username,
-      });
-      setIsLoading(false);
-      console.log(response);
-
-      if (response.status === 200 && url.length !== 0) {
-        navigate(
-          `/reports?username=${username}&url=${url}&chartype=${response.data.chartype}`
-        );
+       dispatch(modalWindow(true));
+      if (data !== null) {
+        const response = await instance.post("/users/linkedin-url", {
+          link: url,
+          email: userEmail,
+        });
+        console.log(response);
+        setIsLoading(false);
+        if (response.status === 200 && url.length !== 0) {
+          if (response.data.chartype) {
+            navigate(
+              `/reports?email=${userEmail}&url=${url}&chartype=${response.data.chartype}`
+            );
+          }
+        }
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    const userToken = getUsername();
-    if (userToken) {
-      dispatch(reports(userToken));
-    }
-  }, [getUsername, dispatch]);
-  console.log(data);
   return (
     <Box
       sx={{
@@ -127,16 +129,10 @@ const Home = () => {
           variant="p"
           className="fontPrompt font_weight_700 font_size_16 white_text"
           sx={{ display: "flex", gap: "1rem" }}>
-          {isLoading ? (
-            <CircularWithValueLabel value={100} />
-          ) : (
-            "Generate Personality Report "
-          )}
-          {!isLoading && (
-            <span>
-              <img src={arrow} alt="arrow" width="100%" height="100%" />
-            </span>
-          )}
+          Generate Personality Report
+          <span>
+            <img src={arrow} alt="arrow" width="100%" height="100%" />
+          </span>
         </Typography>
       </Button>
     </Box>

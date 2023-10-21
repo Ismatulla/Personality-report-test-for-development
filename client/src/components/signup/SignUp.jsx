@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "../login/login.css";
-import googleLogo from "../../assets/devicon_google.svg";
-import linkedinLogo from "../../assets/devicon_linkedin.svg";
 import instance from "../../utils/api";
+import { CircularProgress } from "@mui/material";
+
 
 // MUI components
 import {
@@ -26,6 +26,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+ 
+
   const navigate = useNavigate();
   const notifySuccess = () =>
     toast.success(
@@ -61,17 +64,19 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
       const response = await instance.post("/users/signup", userData);
-
+      console.log(response);
       if (Object.keys(userData).length !== 0) {
         notifySuccess();
       }
-
+      setIsLoading(false);
       if (response.status === 201) {
         navigate("/");
       }
     } catch (error) {
       notifyError();
+      setIsLoading(false);
       if (Object.keys(userData).length !== 0) {
         console.log("Signup Error:", error.response.data);
       }
@@ -107,64 +112,6 @@ const SignUp = () => {
             height="80px"
             style={{ marginBottom: "2rem" }}
           />
-          <Typography
-            component="p"
-            variant="p"
-            className="fontPrompt font_weight_400 font_size_20 "
-            sx={{ marginBottom: "14px" }}>
-            Login using
-          </Typography>
-          <Grid container spacing={5}>
-            <Grid item xs={6}>
-              <Button className="auth_btns fontPrompt font_weight_400 font_size_16">
-                <img src={googleLogo} alt="google logo" />
-                <Typography variant="p" style={{ marginLeft: "1rem" }}>
-                  {" "}
-                  Google
-                </Typography>
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button className="auth_btns fontPrompt font_weight_400 font_size_16">
-                <img src={linkedinLogo} alt="linkedin logo" />
-                <Typography variant="p" style={{ marginLeft: "1rem" }}>
-                  LinkedIn
-                </Typography>
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            sx={{ marginTop: "2rem", width: "100%" }}>
-            <Grid item xs={5.5}>
-              <Box
-                sx={{
-                  borderTop: "1px solid #E0E0E0",
-                  width: "100%",
-                  display: "block",
-                }}></Box>
-            </Grid>
-            <Grid item xs={1}>
-              <Box sx={{ textAlign: "center" }}>
-                {" "}
-                <Typography
-                  variant="p"
-                  className="fontRoboto font_weight_500 font_size_14"
-                  sx={{ color: "#a0a0a0" }}>
-                  OR
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={5.5}>
-              <Box
-                sx={{
-                  borderTop: "1px solid #E0E0E0",
-                  width: "100%",
-                  display: "block !important",
-                }}></Box>
-            </Grid>
-          </Grid>
           <Typography
             variant="p"
             className="fontPrompt font_weight_400 font_size_20"
@@ -266,6 +213,7 @@ const SignUp = () => {
                 <Button
                   type="submit"
                   variant="contained"
+                  disabled={isLoading}
                   sx={{
                     textTransform: "none",
                     margin: "4rem 0 4rem auto",
@@ -279,7 +227,7 @@ const SignUp = () => {
                   }}
                   fullWidth
                   className="fontPrompt font_weight_400 font_size_16">
-                  Create Account
+                  {isLoading ? <CircularProgress /> : " Create Account"}
                 </Button>
               </Grid>
             </Grid>

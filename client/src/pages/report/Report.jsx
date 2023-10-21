@@ -6,20 +6,23 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Contacts from "../../components/contancts/Contacts";
-import PersonalityReport from "../../components/personality-report/PersonalityReport";
-import leftArrow from "../../assets/arrow-to-left.svg";
-import "./report.css";
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import instance from "../../utils/api";
+import PersonalityReport from "../../components/personality-report/PersonalityReport";
+import { useState, useEffect } from "react";
+import "./report.css";
+import { useLocation } from "react-router-dom";
+
+import leftArrow from "../../assets/arrow-to-left.svg";
+import ModalWindow from "../../components/loginModal/ModalWindow";
 
 const Report = () => {
-  const location = useLocation();
   const [isReportPageLoading, setIsReportPageLoading] = useState(false);
+  const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const username = searchParams.get("username");
-  const chartype = searchParams.get("chartype");
+
   const url = searchParams.get("url");
+  const email = searchParams.get("email");
+  const chartype = searchParams.get("chartype");
 
   const [toggleClass, setToggleClass] = useState(true);
   const [contact, setContact] = useState(false);
@@ -36,12 +39,9 @@ const Report = () => {
     setContact(value);
     setToggleClass(true);
   };
-
   const getAllContacts = async () => {
     try {
-      const response = await instance.get(
-        `/users/linkedin-url?username=${username}`
-      );
+      const response = await instance.get(`/users/linkedin-url?email=${email}`);
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -66,7 +66,7 @@ const Report = () => {
   useEffect(() => {
     getSingleReport();
   }, [url]);
- 
+
   return (
     <>
       {/* mobile  */}

@@ -9,6 +9,7 @@ import rgbaColor from "../../utils/discColor";
 import { useLocation } from "react-router-dom";
 
 const PersonalityReport = ({ linkedinData }) => {
+  console.log(linkedinData);
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true);
   const searchParams = new URLSearchParams(location.search);
@@ -35,7 +36,7 @@ const PersonalityReport = ({ linkedinData }) => {
     return () => {
       container.removeEventListener("scroll", handleScroll);
     };
-  }, [])
+  }, []);
 
   return (
     <Container
