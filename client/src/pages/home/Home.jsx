@@ -5,18 +5,21 @@ import arrow from "../../assets/arrow-1.svg";
 import instance from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { modalWindow } from "../../reducers/reportsSlice";
 import { getEmail } from "../../utils/localStorage";
-import waiting from "../../assets/waiting.svg";
-import "./home.css";
 
-import ModalWindow from "../../components/loginModal/ModalWindow";
+// redux slices
+import {
+  waitingOpenAction,
+  successOpenAction,
+} from "../../reducers/reportModalSlice";
+
+import "./home.css";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
   const data = useSelector((state) => state);
+  const dispatch = useDispatch((state) => state);
   const [url, setUrl] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -32,16 +35,21 @@ const Home = () => {
     console.log(url);
     try {
       setIsLoading(true);
-       dispatch(modalWindow(true));
+      dispatch(waitingOpenAction(true));
+      dispatch(successOpenAction(false));
       if (data !== null) {
         const response = await instance.post("/users/linkedin-url", {
           link: url,
           email: userEmail,
         });
+        console.log("doesnt matter im working");
         console.log(response);
         setIsLoading(false);
+
         if (response.status === 200 && url.length !== 0) {
-          if (response.data.chartype) {
+          dispatch(waitingOpenAction(false));
+          dispatch(successOpenAction(true));
+          if (response.data.chartype && !data.reportModal.isSuccesOpen) {
             navigate(
               `/reports?email=${userEmail}&url=${url}&chartype=${response.data.chartype}`
             );
@@ -49,8 +57,11 @@ const Home = () => {
         }
       }
     } catch (error) {
+      console.log(data.reportModal.isClicked);
       console.log(error);
       setIsLoading(false);
+      dispatch(waitingOpenAction(false));
+      dispatch(successOpenAction(false));
     }
   };
 

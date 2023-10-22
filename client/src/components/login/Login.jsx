@@ -32,7 +32,7 @@ const Login = () => {
   const [credential, setCredential] = useState("");
   console.log(isGoogleLoading);
   const notifyError = (errorMessage) =>
-    toast.error(`You are ${errorMessage}`, {
+    toast.error(`${errorMessage}`, {
       theme: "colored",
       style: {
         fontSize: "1.5rem",
