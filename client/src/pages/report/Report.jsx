@@ -66,7 +66,7 @@ const Report = () => {
   useEffect(() => {
     getSingleReport();
   }, [url]);
-
+  console.log(linkedinData);
   return (
     <>
       {/* mobile  */}

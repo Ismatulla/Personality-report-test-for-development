@@ -6,7 +6,7 @@ import instance from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getEmail } from "../../utils/localStorage";
-
+import { ToastContainer, toast } from "react-toastify";
 // redux slices
 import {
   waitingOpenAction,
@@ -28,6 +28,14 @@ const Home = () => {
     const { value } = e.target;
     setUrl(value);
   };
+
+  const notifyError = (errorMessage) =>
+    toast.error(`${errorMessage}`, {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
 
   const handleLinkedInUrlPost = async () => {
     const userEmail = getEmail();
@@ -62,6 +70,12 @@ const Home = () => {
       setIsLoading(false);
       dispatch(waitingOpenAction(false));
       dispatch(successOpenAction(false));
+      
+      if (error.response.status === 400) {
+        console.log('working')
+        notifyError(error.response.data.detail);
+        return;
+      }
     }
   };
 
@@ -146,6 +160,7 @@ const Home = () => {
           </span>
         </Typography>
       </Button>
+      <ToastContainer />
     </Box>
   );
 };

@@ -182,7 +182,7 @@ const PersonalityTraits = ({data}) => {
                 }}
                 variant="h5"
                 className="fontPrompt font_weight_400 font_size_20">
-                Delibrate
+                Deliberate
               </Typography>
               <Typography
                 variant="h5"
@@ -478,7 +478,7 @@ const PersonalityTraits = ({data}) => {
                 }}
                 variant="h5"
                 className="fontPrompt font_weight_400 font_size_20">
-                Progmatic
+                Pragmatic
               </Typography>
             </Typography>
             {/* end of 3 */}

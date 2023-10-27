@@ -9,7 +9,7 @@ const ReportWaitingModal = () => {
   useEffect(() => {
     const interVal = setInterval(() => {
       setCount((prevCount) => {
-        if (prevCount === 60) {
+        if (prevCount === 90) {
           clearInterval(interVal);
           return 1;
         }

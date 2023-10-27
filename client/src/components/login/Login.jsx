@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import instance from "../../utils/api";
-import { setRefreshToken, setAccessToken } from "../../utils/localStorage";
+import {
+  setRefreshToken,
+  setAccessToken,
+  getAccessToken,
+  getRefreshToken,
+  getEmail,
+  setEmail,
+} from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
 import { CircularProgress } from "@mui/material";
 
-import { setEmail, getEmail, setProfPic } from "../../utils/localStorage";
 // redux toolkit import
 //
 // MUI components
@@ -23,6 +29,7 @@ import {
 // tostify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -30,7 +37,11 @@ const Login = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
   const [credential, setCredential] = useState("");
-  console.log(isGoogleLoading);
+
+  // tokens
+  const getAccess = getAccessToken();
+  const getEmails = getEmail();
+
   const notifyError = (errorMessage) =>
     toast.error(`${errorMessage}`, {
       theme: "colored",
@@ -40,6 +51,11 @@ const Login = () => {
     });
 
   //
+  useEffect(() => {
+    if (getAccess && getEmails) {
+      navigate(`/generate-report?email=${getEmails}`);
+    }
+  }, []);
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -65,6 +81,7 @@ const Login = () => {
       if (Object.keys(loginData).length !== 0) {
         notifyError(error.response.statusText?.toLowerCase());
       }
+      setIsLoading(false);
       console.error("Login Error:", error);
     }
   };
@@ -78,7 +95,7 @@ const Login = () => {
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
-        "849651981874-dmni4fkaqmipuo8r9g2lrlg0n8qa2fpn.apps.googleusercontent.com",
+        "515811412387-rn7q0kgi17ekqsj3kqpv3p0d8l6caosn.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -90,9 +107,12 @@ const Login = () => {
     try {
       if (credential) {
         setIsGoogleLoading(true);
-        const response = await instance.post("/users/google/", {
-          auth_token: credential,
-        });
+        const response = await axios.post(
+          "https://thiernobalde95.pythonanywhere.com/users/google/",
+          {
+            auth_token: credential,
+          }
+        );
         if (response.status == 200) {
           setEmail(response.data.email);
           setAccessToken(response.data.tokens.access);
