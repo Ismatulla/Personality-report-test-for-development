@@ -4,16 +4,20 @@ import {
   setRefreshToken,
   setAccessToken,
   getAccessToken,
-  getRefreshToken,
-  getEmail,
-  setEmail,
+  getId,
 } from "../../utils/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import navLogo from "../../assets/navbar-logo.svg";
 import "./login.css";
 import { CircularProgress } from "@mui/material";
 
-// redux toolkit import
+// global state
+import {
+  getTokenSuccess,
+  getTokenRefresh,
+  getIdSuccess,
+} from "../../reducers/authSlice";
+import { useDispatch } from "react-redux";
 //
 // MUI components
 import {
@@ -29,7 +33,6 @@ import {
 // tostify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -37,10 +40,13 @@ const Login = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
   const [credential, setCredential] = useState("");
+  // global state
+  const dispatch = useDispatch();
 
+  //
   // tokens
   const getAccess = getAccessToken();
-  const getEmails = getEmail();
+  const id = getId();
 
   const notifyError = (errorMessage) =>
     toast.error(`${errorMessage}`, {
@@ -51,11 +57,6 @@ const Login = () => {
     });
 
   //
-  useEffect(() => {
-    if (getAccess && getEmails) {
-      navigate(`/generate-report?email=${getEmails}`);
-    }
-  }, []);
   const handleInputChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -64,18 +65,19 @@ const Login = () => {
   // login with form
   const handleLogin = async (e) => {
     e.preventDefault();
-    setEmail(loginData.email);
     try {
       setIsLoading(true);
       const response = await instance.post("/users/api/token/", loginData);
-      console.log(response);
       if (response?.data) {
-        setRefreshToken(response.data.refresh);
         setAccessToken(response.data.access);
+        setRefreshToken(response.data.refresh);
+      }
+      if (response.data.access && response.data.refresh) {
+        dispatch(getTokenSuccess(response.data.access));
+        dispatch(getTokenRefresh(response.data.refresh));
       }
       setIsLoading(false);
-      console.log(response.data);
-      navigate(`/generate-report?email=${loginData.email}`);
+      navigate(`/generate-report`);
     } catch (error) {
       setLoginData(false);
       if (Object.keys(loginData).length !== 0) {
@@ -85,13 +87,19 @@ const Login = () => {
       console.error("Login Error:", error);
     }
   };
+
+  useEffect(() => {
+    if (getAccess && id) {
+      navigate(`/generate-report?email=${id}`);
+    }
+  }, []);
   //
   // login with google
   const handleCallbackResponse = (response) => {
     setAccessToken(response.credential);
     setCredential(response.credential);
-    console.log(response.credential);
   };
+
   useEffect(() => {
     google.accounts.id.initialize({
       client_id:
@@ -103,24 +111,21 @@ const Login = () => {
       size: "large",
     });
   }, []);
+
   const handleGoogleLogin = async () => {
     try {
       if (credential) {
         setIsGoogleLoading(true);
-        const response = await axios.post(
-          "https://thiernobalde95.pythonanywhere.com/users/google/",
-          {
-            auth_token: credential,
-          }
-        );
+        const response = await instance.post("/users/google/", {
+          auth_token: credential,
+        });
         if (response.status == 200) {
-          setEmail(response.data.email);
           setAccessToken(response.data.tokens.access);
           setRefreshToken(response.data.tokens.refresh);
           console.log(response.data);
-          const email = getEmail();
-          if (email) {
-            navigate(`/generate-report?email=${email}`);
+          const id = getId();
+          if (id) {
+            navigate(`/generate-report?id=${id}`);
           }
         }
         setIsGoogleLoading(false);
@@ -173,13 +178,6 @@ const Login = () => {
             </Typography>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                {/* <Button className="auth_btns fontPrompt font_weight_400 font_size_16"> */}
-                {/* <img src={googleLogo} alt="google logo" /> */}
-                {/* <Typography variant="p" style={{ marginLeft: "1rem" }}> */}
-                {/* {" "} */}
-                {/* Google */}
-                {/* </Typography> */}
-                {/* </Button> */}
                 {isGoogleLoading ? (
                   <Box sx={{ display: "fex", justifyContent: "center" }}>
                     {" "}
@@ -189,14 +187,6 @@ const Login = () => {
                   <div id="signInDiv" style={{ width: "100%" }}></div>
                 )}
               </Grid>
-              {/* <Grid item xs={6}> */}
-              {/* <Button className="auth_btns fontPrompt font_weight_400 font_size_16"> */}
-              {/* <img src={linkedinLogo} alt="linkedin logo" /> */}
-              {/* <Typography variant="p" style={{ marginLeft: "1rem" }}> */}
-              {/* LinkedIn */}
-              {/* </Typography> */}
-              {/* </Button> */}
-              {/* </Grid> */}
             </Grid>
             <Grid
               container

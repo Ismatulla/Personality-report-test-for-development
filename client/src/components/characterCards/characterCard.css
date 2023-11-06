@@ -1,3 +1,30 @@
 .singleCard_datas:last-child {
   border-bottom: none;
 }
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.item {
+  position: absolute;
+
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ease;
+}
+
+.item.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.item.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+.btn_anim_cards {
+  position: absolute;
+  top: 570px;
+  left: 780px;
+  z-index: 5;
+}

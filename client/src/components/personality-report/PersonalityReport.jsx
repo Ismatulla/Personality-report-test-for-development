@@ -1,56 +1,22 @@
-import { Box, Typography, Container } from "@mui/material";
-import DiscCircle from "../discCircle/DiscCircle";
+import { Box, Typography } from "@mui/material";
 import "./personalityReport.css";
-import arrowDown from "../../assets/arrow-down.svg";
-import PersonalityTraits from "../personality-traits/PersonalityTraits";
-import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
 import rgbaColor from "../../utils/discColor";
-import { useLocation } from "react-router-dom";
 
-const PersonalityReport = ({ linkedinData }) => {
-  console.log(linkedinData);
-  const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(true);
+// global state import
+import { useSelector } from "react-redux";
+//
+
+const PersonalityReport = () => {
   const searchParams = new URLSearchParams(location.search);
-
   const chartype = searchParams.get("chartype");
   const color = rgbaColor[chartype];
 
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef.current;
-      if (container) {
-        const scrollY = container.scrollTop;
-        if (scrollY > 0) {
-          setIsVisible(false);
-        } else {
-          setIsVisible(true);
-        }
-      }
-    };
+  // global state data
 
-    const container = containerRef.current;
-    container.addEventListener("scroll", handleScroll);
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
+  const { singleProfData } = useSelector((state) => state.data);
+  //
   return (
-    <Container
-      className="personReport scrollable-container"
-      ref={containerRef}
-      sx={{
-        border: {
-          xs: 0,
-          md: "1px solid #e0e0e0",
-          maxWidth: { xs: "100%", lg: "996px" },
-        },
-        marginTop: { md: "4rem" },
-        overflowY: { md: "scroll" },
-      }}>
+    <div>
       {/* profile */}
       <Box
         sx={{
@@ -60,6 +26,7 @@ const PersonalityReport = ({ linkedinData }) => {
           gap: { md: "7.5rem" },
           alignItems: "center",
           borderRadius: { xs: 0, md: "6px 6px 0 0" },
+          marginBottom: "5rem",
         }}>
         <div>
           <Typography
@@ -87,7 +54,7 @@ const PersonalityReport = ({ linkedinData }) => {
                 height: "60px",
               }}>
               <img
-                src={linkedinData?.data?.prof_pic}
+                src={singleProfData?.data?.prof_pic}
                 alt="personprofile"
                 style={{ borderRadius: "8px" }}
                 width="100%"
@@ -107,7 +74,8 @@ const PersonalityReport = ({ linkedinData }) => {
                 }}
                 variant="h2"
                 className="font_weight_400 fontPrompt">
-                {linkedinData?.data?.firstname} {linkedinData?.data?.lastname}
+                {singleProfData?.data?.first_name}{" "}
+                {singleProfData?.data?.last_name}
               </Typography>
               <Typography
                 variant="h6"
@@ -123,7 +91,7 @@ const PersonalityReport = ({ linkedinData }) => {
                   fontSize: { xs: "1.4rem", md: "1.6rem" },
                 }}
                 className="fontRoboto font_weight_700">
-                {linkedinData?.data?.chartype}
+                {singleProfData?.data?.chartype}
               </Typography>
             </Box>
           </Box>
@@ -131,13 +99,13 @@ const PersonalityReport = ({ linkedinData }) => {
             variant="h3"
             className="fontPrompt font_weight_400 font_size_20"
             sx={{ color: "#797979" }}>
-            {linkedinData?.chars_data?.[0][1]}
+            {singleProfData?.chars_data?.[0][1]}
           </Typography>
         </div>
         <div className="personalityReport_profile">
           <Box sx={{ width: "152px", height: "152px" }}>
             <img
-              src={linkedinData?.data?.prof_pic}
+              src={singleProfData?.data?.prof_pic}
               alt="person profile"
               style={{
                 width: "100%",
@@ -148,85 +116,7 @@ const PersonalityReport = ({ linkedinData }) => {
           </Box>
         </div>
       </Box>
-      {/* end of profile */}
-      {/* start of diagram and charts */}
-      <Typography className="personReportChild" variant="h4">
-        <Box sx={{ width: { xs: "100%", md: "384px !important" } }}>
-          <DiscCircle />
-        </Box>
-        <Box>
-          <Box
-            className="fontPrompt font_weight_400 font_size_48"
-            sx={{ color: "black", marginBottom: "4rem" }}>
-            {linkedinData?.data?.chartype}
-          </Box>
-          <Box className="fontRoboto font_weight_400 font_size_20">
-            {linkedinData?.chars_data?.[1][2]}
-          </Box>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              marginTop: "40px",
-            }}>
-            <Typography
-              variant="h6"
-              className="fontRoboto font_weight_400 font_size_16"
-              sx={{
-                color: "#797979",
-                borderRadius: "31px",
-                border: "1px solid #797979",
-                padding: "6px",
-              }}>
-              Sociable
-            </Typography>
-            <Typography
-              variant="h6"
-              className="fontRoboto font_weight_400 font_size_16"
-              sx={{
-                color: "#797979",
-                borderRadius: "31px",
-                border: "1px solid #797979",
-                padding: "6px",
-              }}>
-              Charismatic
-            </Typography>
-            <Typography
-              variant="h6"
-              className="fontRoboto font_weight_400 font_size_16"
-              sx={{
-                color: "#797979",
-                borderRadius: "31px",
-                border: "1px solid #797979",
-                padding: "6px",
-              }}>
-              Adventurous
-            </Typography>
-          </div>
-        </Box>
-      </Typography>
-      <Typography
-        variant="h6"
-        className="fontRoboto font_weight_400 font_size_16 scrollBottom "
-        sx={{
-          justifyContent: "flex-end",
-          alignItems: "center",
-          paddingRight: "51px",
-          gap: "1rem",
-          color: "#797979",
-          display: { xs: "none", md: `${isVisible ? "flex" : "none"}` },
-          mb: "5.1rem",
-        }}>
-        {" "}
-        Scroll down to read more <img src={arrowDown} alt="arrowdown" />{" "}
-      </Typography>
-      {/* end of diagram and charts */}
-
-      {/* start of personality traits */}
-      <PersonalityTraits data={linkedinData?.chars_data} />
-      {/* end of personality traits */}
-    </Container>
+    </div>
   );
 };
 

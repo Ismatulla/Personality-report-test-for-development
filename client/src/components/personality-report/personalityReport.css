@@ -1,14 +1,8 @@
-.personReport {
-  border-radius: 6px;
-  background: #fff;
-  padding: 0 !important;
-  max-height: 840px;
-}
+
 
 .personReportChild {
   display: flex;
-  gap: 4rem;
-  margin-top: 80px !important;
+  gap: 6rem;
   padding: 0 32px;
   align-items: flex-start;
   margin-bottom: 6rem !important;
@@ -75,4 +69,15 @@
 
 .scrollable-container::-ms-scrollbar-thumb:hover {
   background: #1a73e8;
+}
+
+.activeDisc {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.not-activeDisc {
+  opacity: 0; 
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }

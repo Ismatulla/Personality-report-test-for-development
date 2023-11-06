@@ -1,21 +1,17 @@
 const rgbaColor =
 {
-  'Planner': '#11b21b',
-  'Initiator': '#e5561f',
-  'Influencer': '#ffb727',
-  'Motivator': '#ffb727',
-  'Captain': '#c62e85',
-  'Counselor': ' #11b21b',
-  'Analyst': '#6756b2',
-  'Encourager': '#ffb727',
-  'Stabilizer': '#00b6bc',
-  'Supporter': '#11b21b',
-  'Editor': '#6756b2',
-  'Harmonizer': '#afd80a',
-  'Skeptic': ' #6756b2',
-  'Questioner': '#93359b',
-  'Architect': '#c62e85',
-  'Driver': '#c62e85'
+  'Draftsman': '#F14B87',
+  'Pioneer': '#ED1C24',
+  'Trailblazer': '#EE672D',
+  'Engager': '#FFA524',
+  'Catalyst': '#FFD656',
+  'Mediator': '#D4E700',
+  'Advisor': '#5DEE00',
+  'Advocate': '#00AC4E',
+  'Strategist': '#00DFAE',
+  'Refiner': '#4FCAED',
+  'Examiner': '#1A73E8',
+  'Explorer': '#544BED',
 }
   ;
 

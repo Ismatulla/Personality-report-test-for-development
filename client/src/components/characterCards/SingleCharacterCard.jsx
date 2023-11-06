@@ -1,12 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import "./characterCard.css";
 
-const SingleCharacterCard = ({ charTitle, description }) => {
+const SingleCharacterCard = ({
+  charTitle,
+  description,
+  borderColor,
+  visibilityIndex,
+}) => {
+  const borderTop =
+    borderColor !== "" ? `8px  solid ${borderColor}` : "1px solid #e0e0e0";
+
   return (
-    <Box
-      sx={{
-        marginTop: { xs: "6rem", md: "8rem" },
-      }}>
+    <Box className={`item ${visibilityIndex >= 1 ? "visible" : "hidden"}`}>
       <Typography
         variant="h1"
         component="h1"
@@ -18,7 +23,8 @@ const SingleCharacterCard = ({ charTitle, description }) => {
         sx={{
           border: "1px solid  #e0e0e0",
           borderRadius: "8px",
-          minHeight: "100%",
+          minHeight: "620px",
+          borderTop: borderTop,
         }}>
         {description?.map((describe, id) => (
           <Typography

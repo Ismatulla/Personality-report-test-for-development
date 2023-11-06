@@ -2,7 +2,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { getAccessToken } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
-export default function NotFound() {
+export default function NotFound({errorInfo}) {
   const accessToken = getAccessToken();
   const isLoggedIn = accessToken !== null;
   const navigate = useNavigate();
@@ -24,6 +24,7 @@ export default function NotFound() {
         flexDirection: "column",
         minHeight: "100vh",
         backgroundColor: "#fff",
+        padding: "2rem",
       }}>
       <Typography
         variant="h1"
@@ -33,7 +34,7 @@ export default function NotFound() {
       <Typography
         variant="h6"
         className=" font_size_48 font_weight_700 fontPrompt black-10">
-        The page you’re looking for doesn’t exist.
+      {errorInfo}
       </Typography>
       <Button
         onClick={handleRedirect}

@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reportsSlice from "../reducers/reportsSlice";
-import authSlice from "../reducers/authSlice";
 import reportModalSlice from "../reducers/reportModalSlice";
+import authSlice from "../reducers/authSlice";
+import profileDataSlice from "../reducers/profileDataSlice";
+
 const store = configureStore({
   reducer: {
-    report: reportsSlice,
-    auth: authSlice,
     reportModal: reportModalSlice,
+    auth: authSlice,
+    data: profileDataSlice,
   },
 
   devTools: true,

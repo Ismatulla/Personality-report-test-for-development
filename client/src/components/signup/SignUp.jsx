@@ -5,7 +5,6 @@ import "../login/login.css";
 import instance from "../../utils/api";
 import { CircularProgress } from "@mui/material";
 
-
 // MUI components
 import {
   Box,
@@ -27,7 +26,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
- 
 
   const navigate = useNavigate();
   const notifySuccess = () =>

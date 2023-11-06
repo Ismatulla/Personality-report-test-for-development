@@ -10,25 +10,34 @@ import instance from "../../utils/api";
 import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import { useState, useEffect } from "react";
 import "./report.css";
-import { useLocation } from "react-router-dom";
+import NotFound from "../../components/notfound/NotFound";
 
 import leftArrow from "../../assets/arrow-to-left.svg";
-import ModalWindow from "../../components/loginModal/ModalWindow";
+// global state
+import { useDispatch } from "react-redux";
+import {
+  getAllProfData,
+  getSingleProfData,
+} from "../../reducers/profileDataSlice";
+import CharacterCards1 from "../../components/characterCards/CharacterCards1";
 
+import { useNavigate } from "react-router-dom";
+import { clearAccessToken, clearRefreshToken } from "../../utils/localStorage";
+//
+// react tostify
+import { ToastContainer, toast } from "react-toastify";
+//
 const Report = () => {
-  const [isReportPageLoading, setIsReportPageLoading] = useState(false);
-  const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
+  const dispatch = useDispatch();
 
-  const url = searchParams.get("url");
-  const email = searchParams.get("email");
-  const chartype = searchParams.get("chartype");
-
+  const [isReportPageLoading, setIsReportPageLoading] = useState(false);
   const [toggleClass, setToggleClass] = useState(true);
   const [contact, setContact] = useState(false);
+  const [error, setError] = useState(false);
 
-  const [data, setData] = useState([]);
-  const [linkedinData, setLinkedinData] = useState({});
+  const navigate = useNavigate();
 
   const handleClass = () => {
     setToggleClass(!toggleClass);
@@ -39,24 +48,60 @@ const Report = () => {
     setContact(value);
     setToggleClass(true);
   };
+
+  // error notification
+  const notifyError = (errorMessage) =>
+    toast.error(`${errorMessage}`, {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
+  //
+
   const getAllContacts = async () => {
     try {
-      const response = await instance.get(`/users/linkedin-url?email=${email}`);
-      setData(response.data);
+      const response = await instance.get("/users/linkedin-url");
+      if (response.status === 200) {
+        dispatch(getAllProfData(response.data));
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        clearRefreshToken();
+        clearAccessToken();
+
+        setTimeout(() => {
+          notifyError("Your session is expired ,please login again !");
+        }, 500);
+
+        navigate("/");
+      }
     }
   };
   const getSingleReport = async () => {
     try {
       setIsReportPageLoading(true);
-      const response = await instance.get(
-        `/chartype/data-sender?chartype=${chartype}&url=${url}`
-      );
-      setLinkedinData(response.data);
+      const response = await instance.get(`/chartype/data-sender?id=${id}`);
+      if (response.status == 200) {
+        dispatch(getSingleProfData(response.data));
+      }
       setIsReportPageLoading(false);
+      setError(false);
     } catch (error) {
-      console.log(error);
+      setIsReportPageLoading(false);
+      if (error.response.status === 400) {
+        setError(true);
+      }
+      if (error.response.status === 401) {
+        clearRefreshToken();
+        clearAccessToken();
+
+        setTimeout(() => {
+          notifyError("Your session is expired ,please login again !");
+        }, 500);
+
+        navigate("/");
+      }
     }
   };
   useEffect(() => {
@@ -65,8 +110,8 @@ const Report = () => {
 
   useEffect(() => {
     getSingleReport();
-  }, [url]);
-  console.log(linkedinData);
+  }, [id]);
+
   return (
     <>
       {/* mobile  */}
@@ -111,7 +156,7 @@ const Report = () => {
       {/* end of mobile */}
       <Container className="reportContainer ">
         <Box className={`contacts ${contact ? "active" : "not-active"}`}>
-          <Contacts data={data} handleContact={handleContact} />
+          <Contacts handleContact={handleContact} />
         </Box>
         {isReportPageLoading ? (
           <Box
@@ -127,12 +172,29 @@ const Report = () => {
           </Box>
         ) : (
           <Box
-            className={`personalityReport ${
-              toggleClass ? "active" : "not-active"
-            }`}>
-            <PersonalityReport linkedinData={linkedinData} />
+            sx={{
+              border: {
+                xs: 0,
+                md: "1px solid #e0e0e0",
+              },
+              marginTop: { md: "4rem" },
+            }}
+            className={` ${toggleClass ? "active" : "not-active"}`}>
+            {error ? (
+              <NotFound errorInfo="The profilethat you are looking for is not found " />
+            ) : (
+              <>
+                {" "}
+                <PersonalityReport />
+                <div className="personReport">
+                  {/* <PersonalityTraits /> */}
+                  <CharacterCards1 />
+                </div>
+              </>
+            )}
           </Box>
         )}
+        <ToastContainer />
       </Container>
     </>
   );

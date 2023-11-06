@@ -1,26 +1,44 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+// private routing and react router dom
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+
+import { useEffect } from "react";
+// components
 import Navbar from "./components/nav/Navbar";
 import SignUp from "./components/signup/SignUp";
 import Login from "./components/login/Login";
 import PasswordReset from "./components/passwordReset/PasswordReset";
 import PasswordUpdate from "./components/passwordUpdate/PasswordUpdate";
-import Home from "./pages/home/Home";
-import Report from "./pages/report/Report";
 import Footer from "./components/footer/Footer";
 import Settings from "./components/settings/Settings";
-import { useSelector } from "react-redux";
-import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import NotFound from "./components/notfound/NotFound";
+
+// pages
+import Home from "./pages/home/Home";
+import Report from "./pages/report/Report";
+
+// global state
+import { useSelector } from "react-redux";
 
 // buffering functions
 import ReportSuccessModal from "./components/generateReportModal/ReportSuccessModal";
 import ReportWaitingModal from "./components/generateReportModal/ReportWaitingModal";
 //
+
+// local storage
+import { getAccessToken } from "./utils/localStorage";
+
 function App() {
   const location = useLocation();
   const successWindow = useSelector((state) => state.reportModal.isSuccesOpen);
   const waitingWindow = useSelector((state) => state.reportModal.isWaitingOpen);
-
+  const navigate = useNavigate();
+  // loal storage
+  const accessToken = getAccessToken();
+  //
+  useEffect(() => {
+    accessToken === null ? navigate("/") : navigate("/generate-report");
+  }, []);
   return (
     <>
       {successWindow && <ReportSuccessModal />}
@@ -43,7 +61,12 @@ function App() {
             </Route>
 
             {/* if user  tries wrong url */}
-            <Route path="*" element={<NotFound />} />
+            <Route
+              path="*"
+              element={
+                <NotFound errorInfo="  The page you’re looking for doesn’t exist." />
+              }
+            />
             {/* */}
           </Routes>
           {((location.pathname && location.pathname === "/generate-report") ||

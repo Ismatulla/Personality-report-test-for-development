@@ -4,20 +4,21 @@ import searchicon from "../../assets/search-icon.svg";
 import smallArrow from "../../assets/sm-arrow.svg";
 import "../../components/../pages/report/report.css";
 import rgbaColor from "../../utils/discColor";
-import { Link, useLocation } from "react-router-dom";
+import { Link} from "react-router-dom";
 
-const Contacts = ({ data, handleContact }) => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const email = searchParams.get("email");
+// global state
+import { useSelector } from "react-redux";
+//
+
+const Contacts = ({ handleContact }) => {
 
   const [searchItem, setSearchItem] = useState("");
-
+  const { allProfData } = useSelector((state) => state.data);
 
   const handleToggle = () => {
     handleContact(false);
   };
-  const filteredData = data.filter(
+  const filteredData = allProfData?.filter(
     (dts) =>
       dts.first_name
         .toLowerCase()
@@ -147,7 +148,7 @@ const Contacts = ({ data, handleContact }) => {
                 <Link
                   onClick={handleToggle}
                   style={{ textDecoration: "none" }}
-                  to={`/reports?email=${email}&url=${dts.linkedin_url}&chartype=${dts.chartype}`}
+                  to={`/reports?id=${dts.id}&chartype=${dts.chartype}`}
                   key={id}>
                   <List
                     key={id}

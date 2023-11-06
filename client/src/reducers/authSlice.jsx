@@ -1,30 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { getId, getAccessToken, getRefreshToken } from "../utils/localStorage";
 const initialState = {
-  signUp: null,
-  linkedinUrl: "",
-  chartype: "",
-  login: "",
+  tokenSuccess: getAccessToken() ? getAccessToken() : null,
+  tokenRefresh: getRefreshToken() ? getRefreshToken() : null,
+  id: getId() ? getId() : null,
 };
 
 const authSlice = createSlice({
-  name: "registerAuth",
+  name: "auth",
   initialState,
   reducers: {
-    signup: (state, action) => {
-      state.signUp = action.payload;
+    getTokenSuccess: (state, action) => {
+      state.tokenSuccess = action.payload;
     },
-    linkedinUrl: (state, action) => {
-      state.linkedinUrl = action.payload;
+    getTokenRefresh: (state, action) => {
+      state.tokenRefresh = action.payload;
     },
-    chartype: (state, action) => {
-      state.chartype = action.payload;
+    getIdSuccess: (state, action) => {
+      state.id = action.payload;
     },
-    login: (state, action) => {
-      state.login = action.payload;
+    clearTokenSuccess: (state) => {
+      state.tokenSuccess = null;
     },
   },
 });
 
 export default authSlice.reducer;
-export const { signup, linkedinUrl, chartype,login } = authSlice.actions;
+export const {
+  getIdSuccess,
+  getTokenSuccess,
+  getTokenRefresh,
+  clearTokenSuccess,
+} = authSlice.actions;

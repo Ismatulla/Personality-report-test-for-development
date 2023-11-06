@@ -5,7 +5,6 @@ import arrow from "../../assets/arrow-1.svg";
 import instance from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getEmail } from "../../utils/localStorage";
 import { ToastContainer, toast } from "react-toastify";
 // redux slices
 import {
@@ -14,6 +13,7 @@ import {
 } from "../../reducers/reportModalSlice";
 
 import "./home.css";
+import { clearAccessToken, clearRefreshToken } from "../../utils/localStorage";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Home = () => {
   const dispatch = useDispatch((state) => state);
   const [url, setUrl] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const verifyUrl = url.length !== 0 ? false : true;
   const handleUrl = (e) => {
     const { value } = e.target;
@@ -36,45 +36,73 @@ const Home = () => {
         fontSize: "1.5rem",
       },
     });
+  const notifyLimit = () => {
+    let messageWithImage = `<div style="display:flex; align-items:center; justify-content:space-between">
+      <p style='text-align:left'>your limit is finished  if you want more, call Thierno Balde <b>(06177103)</b></p> 
+       <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="Logo" style="width: 24px; height:24px" />
+    </div> `;
 
+    toast.error(
+      <div
+        dangerouslySetInnerHTML={{
+          __html: messageWithImage,
+        }}
+      />,
+      {
+        style: {
+          fontSize: "1.5rem",
+        },
+      }
+    );
+  };
   const handleLinkedInUrlPost = async () => {
-    const userEmail = getEmail();
-    console.log(userEmail);
-    console.log(url);
     try {
-      setIsLoading(true);
+      setIsError(false);
       dispatch(waitingOpenAction(true));
       dispatch(successOpenAction(false));
       if (data !== null) {
         const response = await instance.post("/users/linkedin-url", {
           link: url,
-          email: userEmail,
         });
-        console.log("doesnt matter im working");
-        console.log(response);
-        setIsLoading(false);
 
         if (response.status === 200 && url.length !== 0) {
           dispatch(waitingOpenAction(false));
           dispatch(successOpenAction(true));
           if (response.data.chartype && !data.reportModal.isSuccesOpen) {
+            console.log(response);
             navigate(
-              `/reports?email=${userEmail}&url=${url}&chartype=${response.data.chartype}`
+              `/reports?id=${response.data.id}&chartype=${response.data.chartype}`
             );
           }
         }
       }
     } catch (error) {
-      console.log(data.reportModal.isClicked);
-      console.log(error);
-      setIsLoading(false);
       dispatch(waitingOpenAction(false));
       dispatch(successOpenAction(false));
-      
+
       if (error.response.status === 400) {
-        console.log('working')
-        notifyError(error.response.data.detail);
-        return;
+        if (!url.includes("www.linkedin.com")) {
+          console.log("working");
+          setTimeout(() => {
+            notifyError(
+              "There is a problem with url that you entered ,please check it and try again !"
+            );
+          }, 500);
+          return;
+        } else if (error.response.data.detail) {
+          setTimeout(() => {
+            notifyLimit();
+          });
+          return;
+        }
+      }
+      if (error.response.status === 401) {
+        clearRefreshToken();
+        clearAccessToken();
+        setTimeout(() => {
+          notifyError("Your session is expired ,please login again !");
+        }, 500);
+        navigate("/");
       }
     }
   };

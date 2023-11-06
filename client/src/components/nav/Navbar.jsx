@@ -4,13 +4,20 @@ import navbarLogo from "../../assets/navbar-logo.svg";
 import profilePic from "../../assets/profile-pic.svg";
 import translateLogo from "../../assets/translate-logo.svg";
 
+// global state case
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProfData } from "../../reducers/profileDataSlice";
+import { getIdSuccess, clearTokenSuccess } from "../../reducers/authSlice";
+//  end of global state case
+// react tostify
+import { ToastContainer, toast } from "react-toastify";
+//
+
 import {
   clearRefreshToken,
   clearAccessToken,
-  clearProfPic,
-  clearEmail,
+  clearId,
 } from "../../utils/localStorage";
-import { getAccessToken, getEmail } from "../../utils/localStorage";
 import instance from "../../utils/api";
 import "./navbar.css";
 // MUI components
@@ -32,14 +39,11 @@ const settings = ["Reports", "Settings", "Logout"];
 const profiles = ["English (en)", "Dutch (nl)"];
 
 function Navbar() {
-  const [isReportLoading, setIsReportLoading] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [data, setData] = useState([]);
 
   const navigate = useNavigate();
 
-  const token = getAccessToken();
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -48,53 +52,74 @@ function Navbar() {
     setUserProfile(event.currentTarget);
   };
 
+  // get email  token and dispatching all Data to  global state
+  const dispatch = useDispatch();
+  const { tokenSuccess } = useSelector((state) => state.auth);
+  // tostify message
+  const notifyError = (errorMessage) =>
+    toast.error(`${errorMessage}`, {
+      theme: "colored",
+      style: {
+        fontSize: "1.5rem",
+      },
+    });
+  //
   // get all contacts
-  const email = getEmail();
   const getAllContacts = async () => {
     try {
-      const response = await instance.get(`/users/linkedin-url?email=${email}`);
-      setData(response.data);
+      const response = await instance.get("/users/linkedin-url");
+
+      if (response.status == 200 && response.data.length !== 0) {
+        dispatch(getAllProfData(response.data));
+        dispatch(getIdSuccess(response.data[0].id));
+      }
     } catch (error) {
       console.log(error);
+      if (error.response.status === 401) {
+        dispatch(clearTokenSuccess());
+        setTimeout(() => {
+          notifyError("Your session expired ,please login again !");
+        }, 500);
+      }
     }
   };
+
   useEffect(() => {
-    if (token) {
+    if (tokenSuccess) {
       getAllContacts();
     }
-  }, [token]);
+  }, [tokenSuccess]);
 
-  const url = data && data[0]?.linkedin_url;
-  const chartype = data && data[0]?.chartype;
+  const { allProfData } = useSelector((state) => state.data);
 
   const handleCloseUserMenu = (settings) => {
     if (settings) {
       if (settings === "Logout") {
         clearRefreshToken();
         clearAccessToken();
-        clearProfPic();
-        clearEmail();
+        clearId();
+        dispatch(clearTokenSuccess());
         navigate("/");
       }
       if (settings === "Reports") {
-        if (data.length == 0) {
+        if (allProfData.length == 0) {
           setAnchorElUser(null);
-          navigate(`/generate-report?email=${email}`);
+          navigate("/generate-report");
         } else {
-          navigate(`/reports?email=${email}&url=${url}&chartype=${chartype}`);
+          const id = allProfData[0]?.id;
+          const chartype = allProfData[0]?.chartype;
+          navigate(`/reports?id=${id}&chartype=${chartype}`);
         }
       }
       if (settings === "Settings") {
         navigate("/settings");
       }
     }
+
     setAnchorElUser(null);
   };
 
-  const handleCloseProfile = (userProfile) => {
-    if (userProfile) {
-      console.log(userProfile);
-    }
+  const handleCloseProfile = () => {
     setUserProfile(null);
   };
 
@@ -117,9 +142,9 @@ function Navbar() {
             minHeight: "0 !important",
             padding: { xs: "32px", md: "0" },
           }}>
-          <Link to={token !== null ? `/generate-report?email=${email}` : "/"}>
+          <Link to={tokenSuccess !== null ? "/generate-report" : "/"}>
             <Typography sx={{ mr: 1, display: "block" }}>
-              {token !== null && <img src={navbarLogo} alt="" />}
+              {tokenSuccess !== null && <img src={navbarLogo} alt="" />}
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
@@ -163,7 +188,7 @@ function Navbar() {
                 </MenuItem>
               ))}
             </Menu>
-            {token !== null && (
+            {tokenSuccess !== null && (
               <Button
                 sx={{ padding: "0 !important" }}
                 onClick={handleOpenUserMenu}>
@@ -206,6 +231,7 @@ function Navbar() {
           </Box>
         </Toolbar>
       </Container>
+      <ToastContainer />
     </AppBar>
   );
 }

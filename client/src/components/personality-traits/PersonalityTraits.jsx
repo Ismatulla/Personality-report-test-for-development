@@ -1,7 +1,9 @@
 import { Container, Typography, Box } from "@mui/material";
 import CharacterCards from "../characterCards/CharacterCards";
 
-const PersonalityTraits = ({data}) => {
+
+const PersonalityTraits = () => {
+ 
   return (
     <>
       <Container
@@ -13,7 +15,7 @@ const PersonalityTraits = ({data}) => {
             textAlign: "left",
             marginBottom: "6rem",
           }}>
-          Personality traits
+          Characteristics
         </Typography>
         <Box
           sx={{
@@ -182,7 +184,7 @@ const PersonalityTraits = ({data}) => {
                 }}
                 variant="h5"
                 className="fontPrompt font_weight_400 font_size_20">
-                Deliberate
+                Delibrate
               </Typography>
               <Typography
                 variant="h5"
@@ -478,7 +480,7 @@ const PersonalityTraits = ({data}) => {
                 }}
                 variant="h5"
                 className="fontPrompt font_weight_400 font_size_20">
-                Pragmatic
+                Progmatic
               </Typography>
             </Typography>
             {/* end of 3 */}
@@ -672,11 +674,6 @@ const PersonalityTraits = ({data}) => {
           width: "100% ",
         }}></Typography>
 
-      {/* CARDS !!!!! */}
-      <Container sx={{ maxWidth: "893px", margin: "0 auto" }}>
-        <CharacterCards data={data} />
-      </Container>
-      {/* END OF CARDS !!! */}
     </>
   );
 };
