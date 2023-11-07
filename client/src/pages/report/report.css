@@ -27,7 +27,6 @@
 .personReport {
   border-radius: 6px;
   background: #fff;
-  padding: 0 4rem;
 }
 @media (max-width: 900px) {
   .personReport {

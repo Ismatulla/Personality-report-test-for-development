@@ -5,23 +5,26 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import Contacts from "../../components/contancts/Contacts";
-import instance from "../../utils/api";
-import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+// components
+import Contacts from "../../components/contancts/Contacts";
+import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import "./report.css";
 import NotFound from "../../components/notfound/NotFound";
-
+import CharacterCards1 from "../../components/characterCards/CharacterCards1";
+// image
 import leftArrow from "../../assets/arrow-to-left.svg";
 // global state
 import { useDispatch } from "react-redux";
+
+// utils
 import {
   getAllProfData,
   getSingleProfData,
 } from "../../reducers/profileDataSlice";
-import CharacterCards1 from "../../components/characterCards/CharacterCards1";
-
-import { useNavigate } from "react-router-dom";
+import instance from "../../utils/api";
 import { clearAccessToken, clearRefreshToken } from "../../utils/localStorage";
 //
 // react tostify
@@ -176,6 +179,7 @@ const Report = () => {
               border: {
                 xs: 0,
                 md: "1px solid #e0e0e0",
+                borderRadius: "6px",
               },
               marginTop: { md: "4rem" },
             }}
@@ -187,7 +191,6 @@ const Report = () => {
                 {" "}
                 <PersonalityReport />
                 <div className="personReport">
-                  {/* <PersonalityTraits /> */}
                   <CharacterCards1 />
                 </div>
               </>

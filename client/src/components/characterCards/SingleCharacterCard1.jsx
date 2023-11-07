@@ -10,7 +10,7 @@ const SingleCharacterCard = ({ charTitle, description, borderColor }) => {
         variant="h1"
         component="h1"
         className="fontPrompt font_weight_600 font_size_20"
-        sx={{ color: "#00ac4e", textAlign: "left", marginBottom: "4rem" }}>
+        sx={{ color: "#00ac4e", textAlign: "left", marginBottom: "4rem", }}>
         {charTitle}
       </Typography>
       <Box
