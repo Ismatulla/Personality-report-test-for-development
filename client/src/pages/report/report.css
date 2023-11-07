@@ -5,9 +5,16 @@
   display: flex !important;
   gap: 12px;
 }
+
+.personReport {
+  border-radius: 6px;
+  background: #fff;
+}
+
 @media (max-width: 900px) {
   .reportContainer {
     gap: 0;
+    margin: 0 auto 50rem auto;
   }
 
   .contacts {
@@ -21,16 +28,9 @@
     max-width: 0;
     overflow: hidden;
   }
-}
-
-/*  */
-.personReport {
-  border-radius: 6px;
-  background: #fff;
-}
-@media (max-width: 900px) {
   .personReport {
     max-height: 100%;
+    padding: 0 1rem;
   }
 }
 

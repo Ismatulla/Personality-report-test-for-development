@@ -1,0 +1,40 @@
+.progressOpenCircleMobile {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid #e0e0e0;
+}
+
+.progressOpenCircleMobile.active {
+  border-color: #1a73e8;
+  transition: all 0.3s ease-in-out;
+}
+
+.progressOpenCircleMobile.crossed {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #1a73e8;
+  transition: all 0.3s ease-in-out;
+  border: 0;
+}
+
+.progressLineMobile {
+  width: 2px;
+  height: 30px;
+  background-color: #e0e0e0;
+  position: relative;
+}
+
+.progressLineMobile::after {
+  content: "";
+  width: 2px;
+  position: absolute;
+  background-color: #1a73e8;
+  height: 0;
+}
+
+.progressLineMobile.active::after {
+  height: 30px;
+  transition: height 0.3s ease-in-out;
+}

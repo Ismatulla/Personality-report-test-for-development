@@ -1,4 +1,4 @@
-import SingleCharacterCard1 from "./SingleCharacterCard1";
+import SingleCharacterCard from "./SingleCharacterCard";
 import TeamRoles from "./TeamRoles";
 import "./characterCard.css";
 import { useSelector } from "react-redux";
@@ -8,27 +8,19 @@ import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CharacterProgressbar from "../characterProgressBar/CharacterProgressbar";
-import PersonalityTraits from "../../components/personality-traits/PersonalityTraits";
 
 const CharacterCards = () => {
   const { singleProfData } = useSelector((state) => state.data);
-
   const [visibilityIndex, setVisibilityIndex] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(false);
+
   const handleNextClick = () => {
-    if (visibilityIndex <= 8) {
+    if (visibilityIndex <= singleProfData?.chars_data.length - 1) {
       setVisibilityIndex((prevVisibility) => prevVisibility + 1);
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
     }
   };
   const handlePrevClick = () => {
     if (visibilityIndex >= 1) {
       setVisibilityIndex((prevVisibility) => prevVisibility - 1);
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
     }
   };
 
@@ -63,14 +55,14 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 1 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Conduct"
                 description={singleProfData["chars_data"]?.[2]["Conduct"]}
               />
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Vitalizers"
                 description={singleProfData["chars_data"]?.[3]["Vitalizers"]}
               />
@@ -84,14 +76,14 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 2 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Exhausters"
                 description={singleProfData["chars_data"]?.[4]["Exhausters"]}
               />
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Proficiencies"
                 description={singleProfData["chars_data"]?.[5]["Proficiencies"]}
               />
@@ -105,7 +97,7 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 3 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Hidden Weaknesses"
                 description={
                   singleProfData["chars_data"]?.[6]["Hidden Weaknesses"]
@@ -114,7 +106,7 @@ const CharacterCards = () => {
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Create a Memorable First Impression"
                 description={
                   singleProfData["chars_data"]?.[7][
@@ -132,7 +124,7 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 4 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Trust and Reliability"
                 description={
                   singleProfData["chars_data"]?.[8]["Trust and Reliability"]
@@ -141,7 +133,7 @@ const CharacterCards = () => {
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Product Showcase"
                 description={
                   singleProfData["chars_data"]?.[9]["Product Showcase"]
@@ -157,14 +149,14 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 5 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Negotiation"
                 description={singleProfData["chars_data"]?.[10]["Negotiation"]}
               />
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Costing"
                 description={singleProfData["chars_data"]?.[11]["Costing"]}
               />
@@ -178,7 +170,7 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 6 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="How to Prompt Action"
                 description={
                   singleProfData["chars_data"]?.[12]["How to Prompt Action"]
@@ -187,7 +179,7 @@ const CharacterCards = () => {
             </Grid>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="Pursuing"
                 description={singleProfData["chars_data"]?.[13]["Pursuing"]}
               />
@@ -230,7 +222,7 @@ const CharacterCards = () => {
             className={`item ${visibilityIndex === 8 ? "visible" : "hidden"}`}>
             <Grid item xs={12} md={6} sx={{ maxWidth: "440px !important" }}>
               {" "}
-              <SingleCharacterCard1
+              <SingleCharacterCard
                 charTitle="How to compose Emails to Them"
                 description={
                   singleProfData["chars_data"]?.[16][

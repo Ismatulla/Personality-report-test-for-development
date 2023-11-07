@@ -21,6 +21,7 @@ const SpectrumCard = () => {
           textAlign: "left",
           color: "#00ac4e",
           margin: "0 0 4rem 0",
+          marginLeft: "1rem",
         }}
         className="fontPrompt font_weight_600 font_size_20">
         Personality Spectrum
@@ -32,15 +33,17 @@ const SpectrumCard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            gap: { xs: "5rem", md: "1rem" },
           }}>
-          <div
-            style={{
-              width: "400px",
-              height: "400px",
+          <Box
+            sx={{
+              width: { xs: "360px", md: "400px" },
+              minHeight: { xs: "300px", md: "400px" },
               position: "relative",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              paddingBottom: "2rem",
             }}>
             <div
               style={{
@@ -70,7 +73,7 @@ const SpectrumCard = () => {
               {" "}
               <DiscPercentage widthPercent={singleProfData?.data} />
             </div>
-          </div>
+          </Box>
           <SwitchButton toggleSwitchHandler={toggleSwitchHandler} />
         </Box>
         <Box>

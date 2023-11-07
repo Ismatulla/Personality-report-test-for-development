@@ -13,7 +13,9 @@ import Contacts from "../../components/contancts/Contacts";
 import PersonalityReport from "../../components/personality-report/PersonalityReport";
 import "./report.css";
 import NotFound from "../../components/notfound/NotFound";
-import CharacterCards1 from "../../components/characterCards/CharacterCards1";
+import CharacterCardsDesktop from "../../components/characterCards/CharacterCardsDesktop";
+import CharacterCardsMobile from "../../components/characterCards/CharacterCardsMobile";
+
 // image
 import leftArrow from "../../assets/arrow-to-left.svg";
 // global state
@@ -185,13 +187,20 @@ const Report = () => {
             }}
             className={` ${toggleClass ? "active" : "not-active"}`}>
             {error ? (
-              <NotFound errorInfo="The profilethat you are looking for is not found " />
+              <NotFound errorInfo="The profile that you are looking for is not found " />
             ) : (
               <>
                 {" "}
                 <PersonalityReport />
                 <div className="personReport">
-                  <CharacterCards1 />
+                  <Box sx={{ display: { xs: "none", md: "block" } }}>
+                    {" "}
+                    <CharacterCardsDesktop />
+                  </Box>
+                  <Box sx={{ display: { xs: "block", md: "none" } }}>
+                    {" "}
+                    <CharacterCardsMobile />
+                  </Box>
                 </div>
               </>
             )}

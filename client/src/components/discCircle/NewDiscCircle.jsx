@@ -13,8 +13,8 @@ function NewDiscCircle() {
           <div className="styles_chart-wrapper__m4Wtj">
             <div className="styles_container__XeuDe">
               <svg
-                width="403"
-                height="404"
+                width="359"
+                height="360"
                 viewBox="0 0 403 404"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">
